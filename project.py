@@ -65,8 +65,8 @@ while True:
     if not ret1:
         print("Cannot receive frame")
         break
-    img0 = cv2.flip(cv2.resize(frame, (384, 240)), 1)
-    img1 = cv2.flip(cv2.resize(frame1, (384, 240)), 1)
+    img0 = cv2.flip(cv2.resize(frame, (768, 480)), 1)
+    img1 = cv2.flip(cv2.resize(frame1, (768, 480)), 1)
 
     # 對圖像進行預處理以符合模型輸入需求
     resized_image = cv2.resize(frame, (224, 224), interpolation=cv2.INTER_AREA)
@@ -148,7 +148,75 @@ cap.release()
 cap1.release()
 cv2.destroyAllWindows()
 
-# 將情緒映射為數值，並繪製情緒波動折線圖
+#各情緒權重
+basicpoint=60
+remain=100-basicpoint
+negativeweight=-1
+neutralweight=0
+positiveweight=1
+
+# 鏡頭一情緒轉換成1,0,-1
+emotions_mapped0 = []
+negative0=0
+neutral0=0
+positive0=0
+for e in emotions_over_time:
+    if e in emotion_categories['positive']:
+        emotions_mapped0.append(1)
+        positive0+=1
+    elif e in emotion_categories['negative']:
+        emotions_mapped0.append(-1)
+        negative0+=1
+    elif e in emotion_categories['neutral']:
+        emotions_mapped0.append(0)
+        neutral0+=1
+
+#算鏡頭一各情緒百分比
+total_emotions0 = negative0 + neutral0 + positive0
+if total_emotions0 > 0:
+    negative0perc = round(negative0 / total_emotions0,2)
+    neutral0perc = round(neutral0 / total_emotions0,2)
+    positive0perc = round(positive0 / total_emotions0,2)
+else:
+    negative0perc = neutral0perc = positive0perc = 0
+
+#算鏡頭一分析後分數
+cam0scr=basicpoint+negative0perc*remain*negativeweight+neutral0perc*remain*neutralweight+positive0perc*remain*positiveweight
+
+
+#鏡頭二情緒轉換成1,0,-1
+emotions_mapped1 = []
+negative1=0
+neutral1=0
+positive1=0
+for e in emotions_over_time1:
+    if e in emotion_categories['positive']:
+        emotions_mapped1.append(1)
+        positive1+=1
+    elif e in emotion_categories['negative']:
+        emotions_mapped1.append(-1)
+        negative1+=1
+    elif e in emotion_categories['neutral']:
+        emotions_mapped1.append(0)
+        neutral1+=1
+
+#算鏡頭二各情緒百分比
+total_emotions1 = negative1 + neutral1 + positive1
+if total_emotions1 > 0:
+    negative1perc = round(negative1 / total_emotions1,2)
+    neutral1perc = round(neutral1 / total_emotions1,2)
+    positive1perc = round(positive1 / total_emotions1,2)
+else:
+    negative1perc = neutral1perc = positive1perc = 0
+
+#算鏡頭二分析後分數
+cam1scr=basicpoint+negative1perc*remain*negativeweight+neutral1perc*remain*neutralweight+positive1perc*remain*positiveweight
+
+
+
+# 以下動作將情緒映射為數值，並繪製情緒波動折線圖
+
+#畫鏡頭一折線圖
 emotions_mapped = [1 if e in emotion_categories['positive'] else -1 if e in emotion_categories['negative'] else 0 for e in emotions_over_time]
 plt.figure(figsize=(10, 5))
 plt.plot(emotions_mapped, label='Emotion Wave', color='blue')
@@ -160,6 +228,22 @@ plt.ylabel("Emotion")
 plt.legend()
 plt.show()
 
+
+#畫鏡頭一長條圖
+emotions = ['Negative', 'Neutral', 'Positive']
+percentages0 = [negative0perc, neutral0perc, positive0perc]
+plt.figure(figsize=(8, 4))
+bars0=plt.bar(emotions, percentages0, color=['red', 'gray', 'green'])
+plt.title('Percentage of Each Emotion in Cam0 - Full Survice Score: {cam0scr:.2f}')
+plt.xlabel('Emotion')
+plt.ylabel('Percentage')
+plt.ylim(0, 1)
+for bar in bars0:
+    yval = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, yval, f'{yval:.2%}', ha='center', va='bottom', fontsize=10, color='black')
+
+
+#畫鏡頭二折線圖
 emotions_mapped = [1 if e1 in emotion_categories['positive'] else -1 if e1 in emotion_categories['negative'] else 0 for e1 in emotions_over_time1]
 plt.figure(figsize=(10, 5))
 plt.plot(emotions_mapped, label='Emotion Wave', color='blue')
@@ -169,4 +253,18 @@ plt.title("Emotion Wave Over Time")
 plt.xlabel("Frame")
 plt.ylabel("Emotion")
 plt.legend()
+plt.show()
+
+# 畫鏡頭二長條圖
+percentages1 = [negative1perc, neutral1perc, positive1perc]
+plt.figure(figsize=(8, 4))
+bars1=plt.bar(emotions, percentages1, color=['red', 'gray', 'green'])
+plt.title('Percentage of Each Emotion in Cam1 - Full Service Score: {cam1scr:.2f}')
+plt.xlabel('Emotion')
+plt.ylabel('Percentage')
+plt.ylim(0, 1)
+for bar in bars1:
+    yval = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, yval, f'{yval:.2%}', ha='center', va='bottom', fontsize=10, color='black')
+
 plt.show()
