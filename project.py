@@ -16,6 +16,8 @@ class_2_detected = False  # 標記是否檢測到第二類
 start_time_1 = None  # 第一類檢測開始時間
 start_time_2 = None  # 第二類檢測開始時間
 start_time_low_confidence = None  # 信心水平低於100%的開始時間
+ages_over_time = []  # 紀錄時間序列中的年齡
+genders_over_time = []  # 紀錄時間序列中的性別
 emotions_over_time = []  # 紀錄時間序列中的情緒
 
 class_1_detected1 = False  # 標記是否檢測到第一類
@@ -23,6 +25,8 @@ class_2_detected1 = False  # 標記是否檢測到第二類
 start_time_11 = None  # 第一類檢測開始時間
 start_time_21 = None  # 第二類檢測開始時間
 start_time_low_confidence1 = None  # 信心水平低於100%的開始時間
+ages_over_time1 = []  # 紀錄時間序列中的年齡
+genders_over_time1 = []  # 紀錄時間序列中的性別
 emotions_over_time1 = []  # 紀錄時間序列中的情緒
 
 # 定義情緒類別
@@ -108,35 +112,39 @@ while True:
         start_time_1 = None
         start_time_2 = None
 
-   # 在檢測到類別1後3秒開始進行情緒、年齡和性別分析
+    # 在檢測到類別1後3秒開始進行情緒、年齡和性別分析
     if class_1_detected and start_time_1 and (time.time() - start_time_1) > 3:
         try:
             analyze = DeepFace.analyze(frame, actions=['emotion', 'age', 'gender'], enforce_detection=False)
             emotion = analyze[0]['dominant_emotion']
-            age = analyze[0]['age']
+            age = round(analyze[0]['age'])
             gender_prob = analyze[0]['gender']
             gender = max(gender_prob, key=gender_prob.get)
             gender_confidence = round(gender_prob[gender], 2)
             emotions_over_time.append(emotion)
+            ages_over_time.append(age)
+            genders_over_time.append((gender, gender_confidence))
             img0 = putText(img0, f"{class_name}, Confidence: {np.round(confidence_score * 100, 2)}%", 10, 30)
             img0 = putText(img0, f"Emotion: {emotion}", 10, 70)
             img0 = putText(img0, f"Age: {age}", 10, 110)
-            img0 = putText(img0, f"Gender: {gender} ({gender_confidence}%)", 10, 150)  # 顯示性別及其概率
+            img0 = putText(img0, f"Gender: {gender} {gender_confidence}%", 10, 150)  # 顯示性別及其概率
         except Exception as e:
             print("Error in emotion detection:", e)
 
         try:
             analyze1 = DeepFace.analyze(frame1, actions=['emotion', 'age', 'gender'], enforce_detection=False)
             emotion1 = analyze1[0]['dominant_emotion']
-            age1 = analyze1[0]['age']
+            age1 = round(analyze1[0]['age'])
             gender_prob1 = analyze1[0]['gender']
             gender1 = max(gender_prob1, key=gender_prob1.get)
             gender_confidence1 = round(gender_prob1[gender1], 2)
             emotions_over_time1.append(emotion1)
+            ages_over_time1.append(age1)
+            genders_over_time1.append((gender1, gender_confidence1))
             img1 = putText(img1, f"{class_name1}, Confidence: {np.round(confidence_score1 * 100, 2)}%", 10, 30)
             img1 = putText(img1, f"Emotion: {emotion1}", 10, 70)
             img1 = putText(img1, f"Age: {age1}", 10, 110)
-            img1 = putText(img1, f"Gender: {gender1} ({gender_confidence1}%)", 10, 150)  # 顯示性別及其概率
+            img1 = putText(img1, f"Gender: {gender1} {gender_confidence1}%", 10, 150)  # 顯示性別及其概率
         except Exception as e1:
             print("Error in emotion detection:", e1)
 
@@ -221,13 +229,30 @@ cam1scr = basicpoint + negative1perc * remain * negativeweight + neutral1perc * 
 
 # 以下動作將情緒映射為數值，並繪製情緒波動折線圖
 
+# 將年齡和性別信息添加到圖表標題中
+if ages_over_time and genders_over_time:
+    avg_age = round(np.mean(ages_over_time))
+    most_common_gender = max(set(gender for gender, _ in genders_over_time), key=lambda g: [gender for gender, _ in genders_over_time].count(g))
+    gender_confidence_avg = np.mean([confidence for _, confidence in genders_over_time])
+    title_text = f"Emotion Wave Over Time in Cam0 (Avg Age: {avg_age:}, Gender: {most_common_gender} {gender_confidence_avg:.2f}%)"
+else:
+    title_text = "Emotion Wave Over Time"
+    
+if ages_over_time1 and genders_over_time1:
+    avg_age1 = round(np.mean(ages_over_time1))
+    most_common_gender1 = max(set(gender1 for gender1, _ in genders_over_time1), key=lambda g: [gender1 for gender1, _ in genders_over_time1].count(g))
+    gender_confidence_avg1 = np.mean([confidence1 for _, confidence1 in genders_over_time1])
+    title_text1 = f"Emotion Wave Over Time in Cam1(Avg Age: {avg_age1:}, Gender: {most_common_gender1} {gender_confidence_avg1:.2f}%)"
+else:
+    title_text1 = "Emotion Wave Over Time"
+
 # 畫鏡頭一折線圖
 emotions_mapped = [1 if e in emotion_categories['positive'] else -1 if e in emotion_categories['negative'] else 0 for e in emotions_over_time]
 plt.figure(figsize=(10, 5))
 plt.plot(emotions_mapped, label='Emotion Wave', color='blue')
 plt.axhline(y=0, color='gray', linestyle='--')
 plt.yticks([-1, 0, 1], ['Negative', 'Neutral', 'Positive'])
-plt.title("Emotion Wave Over Time")
+plt.title(title_text)  # 更新標題
 plt.xlabel("Frame")
 plt.ylabel("Emotion")
 plt.legend()
@@ -252,7 +277,7 @@ plt.figure(figsize=(10, 5))
 plt.plot(emotions_mapped, label='Emotion Wave', color='blue')
 plt.axhline(y=0, color='gray', linestyle='--')
 plt.yticks([-1, 0, 1], ['Negative', 'Neutral', 'Positive'])
-plt.title("Emotion Wave Over Time")
+plt.title(title_text1)
 plt.xlabel("Frame")
 plt.ylabel("Emotion")
 plt.legend()
@@ -269,5 +294,4 @@ plt.ylim(0, 1)
 for bar in bars1:
     yval = bar.get_height()
     plt.text(bar.get_x() + bar.get_width() / 2, yval, f'{yval:.2%}', ha='center', va='bottom', fontsize=10, color='black')
-
 plt.show()
