@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "專題python",
+			"path": "."
+		},
+		{
+			"name": "opencv-4.x",
+			"path": "../../Downloads/opencv-4.x"
+		}
+	],
+	"settings": {}
+}
