@@ -98,8 +98,4 @@ while True:
         img0 = putText(img0, f"Age: {previous_results['age']}", 10, 110)
         img0 = putText(img0, f"Gender: {previous_results['gender']} {previous_results['gender_confidence']}%", 10, 150)
         
-        img1 = putText(img1, f"{previous_results['class_name1']}, Confidence: {previous_results['confidence_score1']}%", 10, 30)
-        img1 = putText(img1, f"Emotion: {previous_results['emotion1']}", 10, 70)
-        img1 = putText(img1, f"Age: {previous_results['age1']}", 10, 110)
-        img1 = putText(img1, f"Gender: {previous_results['gender1']} {previous_results['gender_confidence1']}%", 10, 150)
 
