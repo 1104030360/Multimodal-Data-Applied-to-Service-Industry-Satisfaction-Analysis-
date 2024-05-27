@@ -103,15 +103,3 @@ while True:
         img1 = putText(img1, f"Age: {previous_results['age1']}", 10, 110)
         img1 = putText(img1, f"Gender: {previous_results['gender1']} {previous_results['gender_confidence1']}%", 10, 150)
 
-    # 如果类别2连续检测超过3秒则退出循环
-    if class_2_detected and start_time_2 and (time.time() - start_time_2) > 3:
-        print("Class 2 detected for more than 3 seconds, stopping emotion analysis.")
-        break
-
-    # 显示摄像头图像
-    cv2.imshow('camera0', img0)
-    cv2.imshow('camera1', img1)
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-    frame_count += 1
