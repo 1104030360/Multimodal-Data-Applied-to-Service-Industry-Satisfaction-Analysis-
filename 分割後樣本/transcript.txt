@@ -1,0 +1,33 @@
+Speaker SPEAKER_00 (0.43-4.75): 先生你好 歡迎光臨陳品請問需要什麼屬物嗎
+Translated: Hello, please come to Chen Pin, do you need what is needed?
+
+Speaker SPEAKER_01 (4.80-6.73): 哈囉我要買這本書
+Translated: Hello, I want to buy this book
+
+Speaker SPEAKER_00 (6.77-11.45): 這很舒服,前來是第三版因為現在正在改版,所以可能沒辦法
+Translated: This is very comfortable. It is the third edition because it is being revised now, so there may be no way
+
+Speaker SPEAKER_00 (11.66-14.95): 感染痕第四版,現在緣分好提供牛
+Translated: The fourth edition of infection marks, now fate is easy to provide cattle
+
+Speaker SPEAKER_00 (17.24-25.27): 因為就像我剛剛說的它現在改版要改成第四版所以現在第三版都是已經受完的部分
+Translated: Because it is just like what I just said, it is now changed to the fourth edition, so the third edition is now the part that has been completed
+
+Speaker SPEAKER_01 (26.21-28.40): 為什麼沒有
+Translated: Why not
+
+Speaker SPEAKER_01 (28.89-31.54): 我要買這本
+Translated: I want to buy this book
+
+Speaker SPEAKER_00 (29.04-29.52):  oh
+Translated: oh
+
+Speaker SPEAKER_00 (31.89-43.00): 如果您很堅持要第三版的話我會推薦您去向二手書拍賣這種地方可能會有機會買到第三版的這本書
+Translated: If you insist that the third edition, I will recommend you to auction in a second -hand book, which may have the opportunity to buy the third version of this book.
+
+Speaker SPEAKER_01 (42.45-46.92): 哦ok好那我去那邊買好了謝謝你
+Translated: Oh ok, then I'll buy it there. Thank you
+
+Speaker SPEAKER_00 (47.12-48.29): 好的,謝謝
+Translated: OK, thanks
+
