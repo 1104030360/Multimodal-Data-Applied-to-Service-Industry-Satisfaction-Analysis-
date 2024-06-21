@@ -81,6 +81,20 @@ def analyze_frame(frame, class_name, confidence_score, emotions_over_time, ages_
 # 啟動攝像頭
 cap = cv2.VideoCapture(0)
 cap1 = cv2.VideoCapture(1)
+
+# 鏡頭一的影片
+width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))    # 取得影像寬度
+height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))  # 取得影像高度
+fourcc = cv2.VideoWriter_fourcc(*'MJPG')          # 設定影片的格式為 MJPG
+out = cv2.VideoWriter('output.mp4', cv2.VideoWriter_fourcc(*'mp4v'), 20.0, (width, height))  # 產生空的影片
+
+# 鏡頭二的影片
+width1 = int(cap1.get(cv2.CAP_PROP_FRAME_WIDTH))    # 取得影像寬度
+height1 = int(cap1.get(cv2.CAP_PROP_FRAME_HEIGHT))  # 取得影像高度
+fourcc1 = cv2.VideoWriter_fourcc(*'MJPG')          # 設定影片的格式為 MJPG
+out1 = cv2.VideoWriter('output.mp4', cv2.VideoWriter_fourcc(*'mp4v'), 20.0, (width1, height1))  # 產生空的影片
+
+
 if not cap.isOpened() or not cap1.isOpened():
     print("Cannot open camera")
     exit()
@@ -153,7 +167,8 @@ while True:
                 img1 = putText(img1, f"Emotion: {result1['emotion']}", 10, 70)
                 img1 = putText(img1, f"Age: {result1['age']}", 10, 110)
                 img1 = putText(img1, f"Gender: {result1['gender']} {result1['gender_confidence']}%", 10, 150)
-    else:
+    # 如果當前幀的如果當前幀的的結果不需要處理更新，則則直接用前一次的結果           
+    else: 
         img0 = putText(img0, f"{previous_results['class_name']}, Confidence: {previous_results['confidence_score']}%", 10, 30)
         img0 = putText(img0, f"Emotion: {previous_results['emotion']}", 10, 70)
         img0 = putText(img0, f"Age: {previous_results['age']}", 10, 110)
@@ -168,7 +183,8 @@ while True:
     if class_2_detected and start_time_2 and (time.time() - start_time_2) > 3:
         print("Class 2 detected for more than 3 seconds, stopping emotion analysis.")
         break
-
+    out.write(frame)
+    out1.write(frame)
     # 顯示攝像頭圖像
     cv2.imshow('camera0', img0)
     cv2.imshow('camera1', img1)
@@ -177,9 +193,11 @@ while True:
 
     frame_count += 1
 
-# 釋放攝像頭和關閉所有窗口
+# 釋放攝像頭,影片和關閉所有窗口
 cap.release()
 cap1.release()
+out.release()
+out1.release()
 cv2.destroyAllWindows()
 
 # 各情緒權重
@@ -265,18 +283,48 @@ if ages_over_time1 and genders_over_time1:
     title_text1 = f"Emotion Wave Over Time in Cam1 (Avg Age: {avg_age1}, Gender: {most_common_gender1} {gender_confidence_avg1:.2f}%)"
 else:
     title_text1 = "Emotion Wave Over Time"
+    
+Emotion_grade0 = 40*(positive0perc-negative0perc)
+Emotion_grade1 = 40*(positive1perc-negative1perc)
+print(f"Here is the Emotion Grade {Emotion_grade0} of Customer")
+print(f"Here is the Emotion Grade {Emotion_grade1} of Server")
 
-# 畫鏡頭一折線圖
-emotions_mapped = [1 if e in emotion_categories['positive'] else -1 if e in emotion_categories['negative'] else 0 for e in emotions_over_time]
+
+# 畫鏡頭一結合鏡頭二的折線圖 ！！這個地方尚未測試！！
+emotions_map = [1 if e in emotion_categories['positive'] else -1 if e in emotion_categories['negative'] else 0 for e in emotions_over_time]
+emotions_map1 = [1 if e1 in emotion_categories['positive'] else -1 if e1 in emotion_categories['negative'] else 0 for e1 in emotions_over_time1]
+
 plt.figure(figsize=(10, 5))
-plt.plot(emotions_mapped, label='Emotion Wave', color='blue')
+plt.plot(emotions_map, label='Customer_Emotion_Wave', color='blue')
+plt.plot(emotions_map1, label='Server_Emotion_Wave', color='red')
 plt.axhline(y=0, color='gray', linestyle='--')
 plt.yticks([-1, 0, 1], ['Negative', 'Neutral', 'Positive'])
 plt.title(title_text)
 plt.xlabel("Frame")
 plt.ylabel("Emotion")
 plt.legend()
+# 儲存折線圖為 JPG 文件
+plt.savefig("Customer_Emotion_Wave & Server_Emotion_Wave.jpg", format='jpg')
+# 儲存到特定路徑
+plt.savefig("/Users/linjunting/Desktop/專題python/Customer_Emotion_Wave & Server_Emotion_Wave.jpg")
 plt.show()
+
+# 畫鏡頭一折線圖
+emotions_mapped = [1 if e in emotion_categories['positive'] else -1 if e in emotion_categories['negative'] else 0 for e in emotions_over_time]
+plt.figure(figsize=(10, 5))
+plt.plot(emotions_mapped, label='Customer_Emotion_Wave', color='blue')
+plt.axhline(y=0, color='gray', linestyle='--')
+plt.yticks([-1, 0, 1], ['Negative', 'Neutral', 'Positive'])
+plt.title(title_text)
+plt.xlabel("Frame")
+plt.ylabel("Emotion")
+plt.legend()
+# 儲存折線圖為 JPG 文件
+plt.savefig("Customer_Emotion_Wave.jpg", format='jpg')
+# 儲存到特定路徑
+plt.savefig("/Users/linjunting/Desktop/專題python/Customer_Emotion_Wave.jpg")
+plt.show()
+
 
 # 畫鏡頭一長條圖
 emotions = ['Negative', 'Neutral', 'Positive']
@@ -290,18 +338,28 @@ plt.ylim(0, 1)
 for bar in bars0:
     yval = bar.get_height()
     plt.text(bar.get_x() + bar.get_width() / 2, yval, f'{yval:.2%}', ha='center', va='bottom', fontsize=10, color='black')
+# 儲存折線圖為 JPG 文件
+plt.savefig("Customer_Emotion_Bar1.jpg", format='jpg')
+# 儲存到特定路徑
+plt.savefig("/Users/linjunting/Desktop/專題python/Customer_Emotion_Bar1.jpg")
+plt.show()
 
 # 畫鏡頭二折線圖
 emotions_mapped = [1 if e1 in emotion_categories['positive'] else -1 if e1 in emotion_categories['negative'] else 0 for e1 in emotions_over_time1]
 plt.figure(figsize=(10, 5))
-plt.plot(emotions_mapped, label='Emotion Wave', color='blue')
+plt.plot(emotions_mapped, label='Server_Emotion_Wave', color='blue')
 plt.axhline(y=0, color='gray', linestyle='--')
 plt.yticks([-1, 0, 1], ['Negative', 'Neutral', 'Positive'])
 plt.title(title_text1)
 plt.xlabel("Frame")
 plt.ylabel("Emotion")
 plt.legend()
+# 儲存折線圖為 JPG 文件
+plt.savefig("Server_Emotion_Wave.jpg", format='jpg')
+# 儲存到特定路徑
+plt.savefig("/Users/linjunting/Desktop/專題python/Server_Emotion_Wave.jpg")
 plt.show()
+
 
 # 畫鏡頭二長條圖
 percentages1 = [negative1perc, neutral1perc, positive1perc]
@@ -314,4 +372,14 @@ plt.ylim(0, 1)
 for bar in bars1:
     yval = bar.get_height()
     plt.text(bar.get_x() + bar.get_width() / 2, yval, f'{yval:.2%}', ha='center', va='bottom', fontsize=10, color='black')
+# 儲存折線圖為 JPG 文件
+plt.savefig("Server_Emotion_Bar.jpg", format='jpg')
+# 儲存到特定路徑
+plt.savefig("/Users/linjunting/Desktop/專題python/Server_Emotion_Bar.jpg")
 plt.show()
+
+
+
+
+
+
