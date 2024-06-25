@@ -29,12 +29,19 @@ start_time_low_confidence1 = None
 ages_over_time1 = []
 genders_over_time1 = []
 emotions_over_time1 = []
+result_age = None
+result1_age = None
+result_gender = None
+result1_gender = None
+result_gender_confidence = None
+result1_gender_confidence = None
+check_time = 0
 
 # 定義情緒類別
 emotion_categories = {
     'positive': ['happy', 'surprise'],
-    'negative': ['angry', 'disgust', 'fear', 'sad'],
-    'neutral': ['neutral']
+    'negative': ['angry', 'sad'],
+    'neutral': ['neutral', 'disgust', 'fear']
 }
 
 # 定義在圖像上繪製文本的函數
@@ -58,8 +65,9 @@ def process_frame(frame, class_names, model):
     confidence_score = prediction[0][index]
     return class_name, confidence_score
 
+
 # 分析情緒、年齡和性別的函數
-def analyze_frame(frame, class_name, confidence_score, emotions_over_time, ages_over_time, genders_over_time):
+def analyze_frame_A(frame, class_name, confidence_score, emotions_over_time, ages_over_time, genders_over_time, check_time):
     try:
         analyze = DeepFace.analyze(frame, actions=['emotion', 'age', 'gender'], enforce_detection=False)
         emotion = analyze[0]['dominant_emotion']
@@ -78,21 +86,40 @@ def analyze_frame(frame, class_name, confidence_score, emotions_over_time, ages_
         print(f"Error in emotion detection: {e}")
         return None
 
+# 分析情緒的函數
+def analyze_frame_B(frame, class_name, confidence_score, emotions_over_time, check_time):
+    try:
+        analyze = DeepFace.analyze(frame, actions=['emotion'], enforce_detection=False)
+        emotion = analyze[0]['dominant_emotion']
+        emotions_over_time.append(emotion)
+        return {
+            'class_name': class_name, 'confidence_score': np.round(confidence_score * 100, 2),
+            'emotion': emotion
+        }
+    except Exception as e:
+        print(f"Error in emotion detection: {e}")
+        return None
+
 # 啟動攝像頭
 cap = cv2.VideoCapture(0)
 cap1 = cv2.VideoCapture(1)
 
-# 鏡頭一的影片
-width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))    # 取得影像寬度
-height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))  # 取得影像高度
-fourcc = cv2.VideoWriter_fourcc(*'MJPG')          # 設定影片的格式為 MJPG
-out = cv2.VideoWriter('output.mp4', cv2.VideoWriter_fourcc(*'mp4v'), 20.0, (width, height))  # 產生空的影片
 
-# 鏡頭二的影片
-width1 = int(cap1.get(cv2.CAP_PROP_FRAME_WIDTH))    # 取得影像寬度
-height1 = int(cap1.get(cv2.CAP_PROP_FRAME_HEIGHT))  # 取得影像高度
-fourcc1 = cv2.VideoWriter_fourcc(*'MJPG')          # 設定影片的格式為 MJPG
-out1 = cv2.VideoWriter('output.mp4', cv2.VideoWriter_fourcc(*'mp4v'), 20.0, (width1, height1))  # 產生空的影片
+# 設置幀率和影像尺寸
+target_fps = 5
+cap.set(cv2.CAP_PROP_FPS, target_fps)
+cap1.set(cv2.CAP_PROP_FPS, target_fps)
+
+width0 = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
+height0 = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+width1 = int(cap1.get(cv2.CAP_PROP_FRAME_WIDTH))
+height1 = int(cap1.get(cv2.CAP_PROP_FRAME_HEIGHT))
+
+# 設定影片編碼和創建VideoWriter物件
+fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+out0 = cv2.VideoWriter('output_cam0.mp4', fourcc, target_fps, (width0, height0))
+out1 = cv2.VideoWriter('output_cam1.mp4', fourcc, target_fps, (width1, height1))
 
 
 if not cap.isOpened() or not cap1.isOpened():
@@ -152,21 +179,34 @@ while True:
             start_time_2 = None
 
         if class_1_detected and start_time_1 and (time.time() - start_time_1) > 3:
-            result = analyze_frame(frame, class_name, confidence_score, emotions_over_time, ages_over_time, genders_over_time)
+            check_time = time.time() - start_time_1
+            if check_time <= 8: #超過分析超過五秒年齡性別得出結論->直接使用第五秒最後一次判斷的性別年齡結果
+                result = analyze_frame_A(frame, class_name, confidence_score, emotions_over_time, ages_over_time, genders_over_time, check_time)
+                result_age = result['age']
+                result_gender = result['gender']
+                result_gender_confidence = result['gender_confidence']
+            else:
+                result = analyze_frame_B(frame, class_name, confidence_score, emotions_over_time, check_time)
             if result:
                 previous_results.update(result)
                 img0 = putText(img0, f"{result['class_name']}, Confidence: {result['confidence_score']}%", 10, 30)
                 img0 = putText(img0, f"Emotion: {result['emotion']}", 10, 70)
-                img0 = putText(img0, f"Age: {result['age']}", 10, 110)
-                img0 = putText(img0, f"Gender: {result['gender']} {result['gender_confidence']}%", 10, 150)
-
-            result1 = analyze_frame(frame1, class_name1, confidence_score1, emotions_over_time1, ages_over_time1, genders_over_time1)
+                img0 = putText(img0, f"Age: {result_age}", 10, 110)
+                img0 = putText(img0, f"Gender: {result_gender} {result_gender_confidence}%", 10, 150)
+                
+            if check_time <= 8: #超過分析超過五秒年齡性別得出結論->直接使用第五秒最後一次判斷的性別年齡結果
+                result1 = analyze_frame_A(frame1, class_name1, confidence_score1, emotions_over_time1, ages_over_time1, genders_over_time1, check_time)
+                result1_age = result1['age']
+                result1_gender = result1['gender']
+                result1_gender_confidence = result1['gender_confidence']
+            else:
+                result1 = analyze_frame_B(frame1, class_name1, confidence_score1, emotions_over_time1, check_time)
             if result1:
                 previous_results.update(result1)
                 img1 = putText(img1, f"{result1['class_name']}, Confidence: {result1['confidence_score']}%", 10, 30)
                 img1 = putText(img1, f"Emotion: {result1['emotion']}", 10, 70)
-                img1 = putText(img1, f"Age: {result1['age']}", 10, 110)
-                img1 = putText(img1, f"Gender: {result1['gender']} {result1['gender_confidence']}%", 10, 150)
+                img1 = putText(img1, f"Age: {result1_age}", 10, 110)
+                img1 = putText(img1, f"Gender: {result1_gender} {result1_gender_confidence}%", 10, 150)
     # 如果當前幀的如果當前幀的的結果不需要處理更新，則則直接用前一次的結果           
     else: 
         img0 = putText(img0, f"{previous_results['class_name']}, Confidence: {previous_results['confidence_score']}%", 10, 30)
@@ -183,8 +223,8 @@ while True:
     if class_2_detected and start_time_2 and (time.time() - start_time_2) > 3:
         print("Class 2 detected for more than 3 seconds, stopping emotion analysis.")
         break
-    out.write(frame)
-    out1.write(frame)
+    out0.write(frame)
+    out1.write(frame1)
     # 顯示攝像頭圖像
     cv2.imshow('camera0', img0)
     cv2.imshow('camera1', img1)
@@ -196,7 +236,7 @@ while True:
 # 釋放攝像頭,影片和關閉所有窗口
 cap.release()
 cap1.release()
-out.release()
+out0.release()
 out1.release()
 cv2.destroyAllWindows()
 
@@ -284,8 +324,8 @@ if ages_over_time1 and genders_over_time1:
 else:
     title_text1 = "Emotion Wave Over Time"
     
-Emotion_grade0 = 40*(positive0perc-negative0perc)
-Emotion_grade1 = 40*(positive1perc-negative1perc)
+Emotion_grade0 = 60+40*(positive0perc-negative0perc)
+Emotion_grade1 = 60+40*(positive1perc-negative1perc)
 print(f"Here is the Emotion Grade {Emotion_grade0} of Customer")
 print(f"Here is the Emotion Grade {Emotion_grade1} of Server")
 
