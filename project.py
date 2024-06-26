@@ -6,6 +6,7 @@ from PIL import ImageFont, ImageDraw, Image
 import matplotlib.pyplot as plt
 import time
 from collections import Counter
+import sys
 
 # 載入Keras訓練好的模型和分類標籤
 model = load_model("/Users/linjunting/Downloads/converted_keras-2/keras_model.h5", compile=False)
@@ -229,6 +230,7 @@ while True:
     cv2.imshow('camera0', img0)
     cv2.imshow('camera1', img1)
     if cv2.waitKey(1) & 0xFF == ord('q'):
+        exit_status = 1
         break
 
     frame_count += 1
@@ -347,7 +349,6 @@ plt.legend()
 plt.savefig("Customer_Emotion_Wave & Server_Emotion_Wave.jpg", format='jpg')
 # 儲存到特定路徑
 plt.savefig("/Users/linjunting/Desktop/專題python/Customer_Emotion_Wave & Server_Emotion_Wave.jpg")
-plt.show()
 
 # 畫鏡頭一折線圖
 emotions_mapped = [1 if e in emotion_categories['positive'] else -1 if e in emotion_categories['negative'] else 0 for e in emotions_over_time]
@@ -363,7 +364,6 @@ plt.legend()
 plt.savefig("Customer_Emotion_Wave.jpg", format='jpg')
 # 儲存到特定路徑
 plt.savefig("/Users/linjunting/Desktop/專題python/Customer_Emotion_Wave.jpg")
-plt.show()
 
 
 # 畫鏡頭一長條圖
@@ -382,7 +382,6 @@ for bar in bars0:
 plt.savefig("Customer_Emotion_Bar1.jpg", format='jpg')
 # 儲存到特定路徑
 plt.savefig("/Users/linjunting/Desktop/專題python/Customer_Emotion_Bar1.jpg")
-plt.show()
 
 # 畫鏡頭二折線圖
 emotions_mapped = [1 if e1 in emotion_categories['positive'] else -1 if e1 in emotion_categories['negative'] else 0 for e1 in emotions_over_time1]
@@ -398,7 +397,6 @@ plt.legend()
 plt.savefig("Server_Emotion_Wave.jpg", format='jpg')
 # 儲存到特定路徑
 plt.savefig("/Users/linjunting/Desktop/專題python/Server_Emotion_Wave.jpg")
-plt.show()
 
 
 # 畫鏡頭二長條圖
@@ -416,10 +414,10 @@ for bar in bars1:
 plt.savefig("Server_Emotion_Bar.jpg", format='jpg')
 # 儲存到特定路徑
 plt.savefig("/Users/linjunting/Desktop/專題python/Server_Emotion_Bar.jpg")
-plt.show()
 
 
-
-
-
-
+# 返回 exit_status
+if exit_status == 1:
+    sys.exit('q')
+else:
+    sys.exit(0)
