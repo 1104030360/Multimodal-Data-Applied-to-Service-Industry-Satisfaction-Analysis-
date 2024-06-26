@@ -111,6 +111,14 @@ target_fps = 5
 cap.set(cv2.CAP_PROP_FPS, target_fps)
 cap1.set(cv2.CAP_PROP_FPS, target_fps)
 
+# 設置較低解析度以提升效能
+low_res_width = 320
+low_res_height = 240
+cap.set(cv2.CAP_PROP_FRAME_WIDTH, low_res_width)
+cap.set(cv2.CAP_PROP_FRAME_HEIGHT, low_res_height)
+cap1.set(cv2.CAP_PROP_FRAME_WIDTH, low_res_width)
+cap1.set(cv2.CAP_PROP_FRAME_HEIGHT, low_res_height)
+
 width0 = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
 height0 = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 
