@@ -7,6 +7,7 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from googletrans import Translator
 import whisper
 from pyannote.audio import Pipeline
+import numpy as np
 
 
 # 设置 Hugging Face 访问令牌
@@ -24,10 +25,10 @@ model = whisper.load_model("base")
 model = model.to(device)
 
 # 指定音频文件路径
-audio_file_path = "C:/Users/蔡秉成/OneDrive/桌面/專題音檔/final.wav"
+audio_file_path = "C:/Users/蔡秉成/OneDrive/桌面/text/專題音檔/final.wav"
 
 # 指定输出目录
-output_dir = "C:/Users/蔡秉成/OneDrive/桌面/分割後樣本"
+output_dir = "C:/Users/蔡秉成/OneDrive/桌面/text/分割後樣本"
 os.makedirs(output_dir, exist_ok=True)
 
 # 使用 Pydub 加载音频
@@ -113,24 +114,69 @@ with open(script_file_path, "w", encoding="utf-8") as script_file:
     # 打印情绪分析结果
             print(f"Sentiment Analysis: {sentiment_dict}\n")
 
-# 绘制情绪分析图表
+# 绘制合并的情绪分析图表
+chart_output_dir = "C:/Users/蔡秉成/OneDrive/桌面/text/圖表"
+os.makedirs(chart_output_dir, exist_ok=True)
+
+labels = ['Negative', 'Neutral', 'Positive']
+speakers = list(sentiments_by_speaker.keys())
+width = 0.3  # 条形图的宽度
+
+# 为每个说话者准备条形图数据
+data = defaultdict(list)
 for speaker, sentiments in sentiments_by_speaker.items():
     avg_sentiments = defaultdict(float)
     for sentiment in sentiments:
         for key, value in sentiment.items():
             avg_sentiments[key] += value / len(sentiments)
-    
-    labels = ['Negative', 'Neutral', 'Positive']
-    scores = [avg_sentiments['neg'], avg_sentiments['neu'], avg_sentiments['pos']]
-    
-    plt.figure(figsize=(10, 6))
-    bars = plt.bar(labels, scores, color=['red', 'grey', 'green'])
-    plt.xlabel('Sentiment')
-    plt.ylabel('Score')
-    plt.title(f'Speaker {speaker} - Sentiment Analysis Result')
-    for bar in bars:
-        height = bar.get_height()
-        plt.text(bar.get_x() + bar.get_width() / 2.0, height, f'{height:.2f}', ha='center', va='bottom')
-    
-    plt.show()
+    data['neg'].append(avg_sentiments['neg'])
+    data['neu'].append(avg_sentiments['neu'])
+    data['pos'].append(avg_sentiments['pos'])
 
+x = range(len(labels))  # 标签的位置
+
+fig, ax = plt.subplots(figsize=(6, 5))
+for idx, speaker in enumerate(speakers):
+    ax.bar([p + width*idx for p in x], [data[key][idx] for key in ['neg', 'neu', 'pos']], width, alpha=0.7, label=f'Speaker {speaker}')
+
+ax.set_xlabel('Sentiment')
+ax.set_ylabel('Proportion')
+ax.set_title('Combined Sentiment Analysis_TEXT')
+ax.set_xticks([p + width*(len(speakers)-1)/2 for p in x])
+ax.set_xticklabels(labels)
+ax.legend()
+
+# 設定 Y 軸範圍和刻度
+ax.set_ylim(0, 1)
+ax.set_yticks(np.arange(0, 1.1, 0.2))
+
+# 调整布局并保存图表
+plt.tight_layout()
+chart_file_path = os.path.join(chart_output_dir, "combined_sentiment_analysis-TEXT.png")
+plt.savefig(chart_file_path)
+plt.close()
+print("圖表已保存到", chart_file_path)
+
+# 创建分数目录
+scores_output_dir = "C:/Users/蔡秉成/OneDrive/桌面/text/分數"
+os.makedirs(scores_output_dir, exist_ok=True)
+# 计算分数并列出
+scores = {}
+for idx, speaker in enumerate(speakers):
+    neg = data['neg'][idx]
+    neu = data['neu'][idx]
+    pos = data['pos'][idx]
+    score = (neg * -1 + neu * 0.3 + pos * 1) * 40 + 60
+    scores[speaker] = score
+
+print("各Speaker的分数:")
+for speaker, score in scores.items():
+    print(f"{speaker}: {score:.2f}")
+
+# 将分数保存到TXT文件
+scores_file_path = os.path.join(scores_output_dir, "scores.txt")
+with open(scores_file_path, "w", encoding="utf-8") as scores_file:
+    for speaker, score in scores.items():
+        scores_file.write(f"{speaker}: {score:.2f}\n")
+
+print("各Speaker的分数已保存到", scores_file_path)
