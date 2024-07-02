@@ -345,8 +345,8 @@ emotions_map = [1 if e in emotion_categories['positive'] else -1 if e in emotion
 emotions_map1 = [1 if e1 in emotion_categories['positive'] else -1 if e1 in emotion_categories['negative'] else 0 for e1 in emotions_over_time1]
 
 plt.figure(figsize=(10, 5))
-plt.plot(emotions_map, label='Customer_Emotion_Wave', color='blue')
-plt.plot(emotions_map1, label='Server_Emotion_Wave', color='red')
+plt.plot(emotions_map, label='Customer_Emotion_Wave', color='#1f77b4')
+plt.plot(emotions_map1, label='Server_Emotion_Wave', color='#ff7f0e')
 plt.axhline(y=0, color='gray', linestyle='--')
 plt.yticks([-1, 0, 1], ['Negative', 'Neutral', 'Positive'])
 plt.title(title_text)
@@ -361,7 +361,7 @@ plt.savefig("/Users/linjunting/Desktop/專題python/Customer_Emotion_Wave & Serv
 # 畫鏡頭一折線圖
 emotions_mapped = [1 if e in emotion_categories['positive'] else -1 if e in emotion_categories['negative'] else 0 for e in emotions_over_time]
 plt.figure(figsize=(10, 5))
-plt.plot(emotions_mapped, label='Customer_Emotion_Wave', color='blue')
+plt.plot(emotions_mapped, label='Customer_Emotion_Wave', color='#1f77b4')
 plt.axhline(y=0, color='gray', linestyle='--')
 plt.yticks([-1, 0, 1], ['Negative', 'Neutral', 'Positive'])
 plt.title(title_text)
@@ -394,7 +394,7 @@ plt.savefig("/Users/linjunting/Desktop/專題python/Customer_Emotion_Bar1.jpg")
 # 畫鏡頭二折線圖
 emotions_mapped = [1 if e1 in emotion_categories['positive'] else -1 if e1 in emotion_categories['negative'] else 0 for e1 in emotions_over_time1]
 plt.figure(figsize=(10, 5))
-plt.plot(emotions_mapped, label='Server_Emotion_Wave', color='blue')
+plt.plot(emotions_mapped, label='Server_Emotion_Wave', color='#ff7f0e')
 plt.axhline(y=0, color='gray', linestyle='--')
 plt.yticks([-1, 0, 1], ['Negative', 'Neutral', 'Positive'])
 plt.title(title_text1)
