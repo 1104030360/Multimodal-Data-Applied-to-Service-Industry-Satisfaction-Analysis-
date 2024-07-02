@@ -136,6 +136,7 @@ for speaker, sentiments in sentiments_by_speaker.items():
 x = range(len(labels))  # 标签的位置
 
 fig, ax = plt.subplots(figsize=(6, 5))
+colors = ['#1f77b4', '#ff7f0e'] 
 for idx, speaker in enumerate(speakers):
     ax.bar([p + width*idx for p in x], [data[key][idx] for key in ['neg', 'neu', 'pos']], width, alpha=0.7, label=f'Speaker {speaker}')
 
