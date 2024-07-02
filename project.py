@@ -379,9 +379,9 @@ emotions = ['Negative', 'Neutral', 'Positive']
 percentages0 = [negative0perc, neutral0perc, positive0perc]
 plt.figure(figsize=(8, 4))
 bars0 = plt.bar(emotions, percentages0, color=['red', 'gray', 'green'])
-plt.title(f'Percentage of Each Emotion in Cam0 - Full Service Score: {cam0scr:.2f}')
-plt.xlabel('Emotion')
-plt.ylabel('Percentage')
+plt.title(f'Combined Sentiment Analysis_Facial of Customer')
+plt.xlabel('Sentiment')
+plt.ylabel('Proportion')
 plt.ylim(0, 1)
 for bar in bars0:
     yval = bar.get_height()
@@ -411,9 +411,9 @@ plt.savefig("/Users/linjunting/Desktop/專題python/Server_Emotion_Wave.jpg")
 percentages1 = [negative1perc, neutral1perc, positive1perc]
 plt.figure(figsize=(8, 4))
 bars1 = plt.bar(emotions, percentages1, color=['red', 'gray', 'green'])
-plt.title(f'Percentage of Each Emotion in Cam1 - Full Service Score: {cam1scr:.2f}')
-plt.xlabel('Emotion')
-plt.ylabel('Percentage')
+plt.title(f'Combined Sentiment Analysis_Facial of Serverq')
+plt.xlabel('Sentiment')
+plt.ylabel('Proportion')
 plt.ylim(0, 1)
 for bar in bars1:
     yval = bar.get_height()
