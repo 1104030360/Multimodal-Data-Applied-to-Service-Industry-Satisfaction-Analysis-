@@ -1,0 +1,2 @@
+Weighted score for Speaker SPEAKER_00: 81.06
+Weighted score for Speaker SPEAKER_02: 76.55
