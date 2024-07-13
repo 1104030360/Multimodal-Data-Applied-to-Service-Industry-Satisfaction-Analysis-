@@ -5,11 +5,7 @@ import os
 import shutil
 import webbrowser
 from threading import Timer
-import pdfkit
-
-# 指定 wkhtmltopdf 的路径
-path_wkhtmltopdf = '/usr/local/bin/wkhtmltopdf'  # 替换为你的路径
-config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+from weasyprint import HTML, CSS
 
 app = Flask(__name__)
 
@@ -44,7 +40,6 @@ def update_image_paths(name):
             data_store["audio_chart"] = os.path.join(img_folder, file)  # 使用相对路径
         elif f"text_chart_{name}" in file:
             data_store["text_chart"] = os.path.join(img_folder, file)  # 使用相对路径
-
 
 def load_csv_data(filepath):
     try:
@@ -120,13 +115,7 @@ def upload_file():
 def download_pdf():
     """生成 PDF 并下载"""
     try:
-        # 使用绝对路径
-        abs_data_store = data_store.copy()
-        for key in ['person_photo', 'facial_chart', 'audio_chart', 'text_chart']:
-            if abs_data_store[key]:
-                abs_data_store[key] = os.path.abspath(abs_data_store[key])
-
-        rendered = render_template('report2.html', data=abs_data_store)
+        rendered = render_template('report2.html', data=data_store)
         pdf_folder = 'static/pdf'
         pdf_filename = 'report2.pdf'
         pdf_path = os.path.join(pdf_folder, pdf_filename)
@@ -135,17 +124,12 @@ def download_pdf():
         if not os.path.exists(pdf_folder):
             os.makedirs(pdf_folder)
 
-        options = {
-            'enable-local-file-access': None,  # 允许本地文件访问
-            'page-size': 'A4',  # 设置页面大小
-            'margin-top': '0.75in',
-            'margin-right': '0.75in',
-            'margin-bottom': '0.75in',
-            'margin-left': '0.75in',
-        }
+        # 渲染HTML和CSS
+        html = HTML(string=rendered, base_url=request.url_root)
+        css = CSS(filename=os.path.join('static', 'css', 'report2.css'))
 
-
-        pdfkit.from_string(rendered, pdf_path, configuration=config, options=options)
+        # 生成PDF
+        html.write_pdf(pdf_path, stylesheets=[css])
         print(f"PDF saved to {pdf_path}")
 
         return send_file(pdf_path, as_attachment=True)
