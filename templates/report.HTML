@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>整體員工報表</title>
+    <link rel="stylesheet" href="report.css">
+</head>
+<body>
+    <div class="report-container">
+        
+        <div >
+            <h1 class="title">{{data.title}}</h1>
+        </div>
+        <div class="flex-header">
+            <div>
+                <h2>{{data.name}}_Service_1</h2> <!--要匯入 -->
+                </div>
+            <div class="time">
+                <h3>{{data.time}}</h3><!--要匯入 -->
+            </div>
+        </div>
+        <div class="flex-header1">
+            <img src="timmy1.jpeg" width="300" height="300" style="width: 300px; height:300px; border-radius:100%;">
+            <div class="text1">
+                <h2>data.name</h2><!--要匯入 -->
+                <h3>{{data.organization}}</h3><!--要匯入 -->
+            </div>
+            <div class="total_score">
+                <p>SCORE</p>
+                <h2>{{data.total_score}}</h2><!--要匯入 -->
+                <p class="difference">和全部服務差異%值</p>
+            </div>
+        </div>
+        <div class="category_score">
+            <div class="AI2">
+                <p class="AUDIO">AUDIO</p>
+                <h2>{{data.audio_score}}</h2><!--要匯入 -->
+                <p class="difference">和全部服務差異%值</p>
+            </div>
+            <div class="AI2">
+                <p class="TEXT">TEXT</p>
+                <h2>{{data.text_score}}</h2><!--要匯入 -->
+                <p class="difference">和全部服務差異%值</p>
+            </div>
+            <div class="AI2">
+                <p class="FACIAL">FACIAL</p>
+                <h2>{{data.facial_score}}</h2><!--要匯入 -->
+                <p class="difference">和全部服務差異%值</p>
+            </div>
+        </div>
+        
+        <div class="content">
+            <div id="report1" class="report-section"><!--要匯入 -->
+                <h2>AUDIO</h2>
+                <iframe title="PowerBI Implement" width="1140" height="541.25" src="https://msit.powerbi.com/reportEmbed?reportId=f507dd5a-0254-4cad-8e49-b0ee5ed02835&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47" frameborder="0" allowFullScreen="true"></iframe>            </div>
+            <div class="AI1">
+                <h2>AI生成建議1</h2>
+                <p>{{data.ai_text1}}</p><!--要匯入 -->
+            </div>
+            
+            <div id="report2" class="report-section"><!--要匯入 -->
+                <h2>TEXT</h2>
+                <iframe title="PowerBI Implement1" width="1140" height="541.25" src="https://msit.powerbi.com/reportEmbed?reportId=b6433408-5934-43cc-bbc8-1a79c9310ebb&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47" frameborder="0" allowFullScreen="true"></iframe>            </div>
+            <div class="AI1">
+                <h2>AI生成建議2</h2>
+                <p>{{data.ai_text2}}</p><!--要匯入 -->
+            </div>
+
+            <div id="report3" class="report-section"><!--要匯入 -->
+                <h2>FACIAL</h2>
+                <iframe title="Power BI Implement_MRT" width="1140" height="541.25" src="https://msit.powerbi.com/reportEmbed?reportId=dd709539-ceb3-4284-b83b-4410ea5dbdd4&autoAuth=true&ctid=72f988bf-86f1-41af-91ab-2d7cd011db47" frameborder="0" allowFullScreen="true"></iframe>            </div>
+            <div class="AI1">
+                <h2>AI生成建議3</h2>
+                <p>{{data.ai_text3}}</p><!--要匯入 -->
+            </div>
+            <!-- 根據需要添加更多圖表 -->
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

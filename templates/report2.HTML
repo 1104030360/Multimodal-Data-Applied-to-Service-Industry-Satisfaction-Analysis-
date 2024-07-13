@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Report</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/report2.css') }}">
+</head>
+<body>
+    <div class="report-container">
+        <div>
+            <h1 class="title">ADAM</h1>
+        </div>
+        <div class="flex-header">
+            <div>
+                <h2>{{data.name}}_Service_1</h2>
+            </div>
+            <div class="time">
+                <h3>From {{data.time1}} To {{data.time2}}</h3>
+            </div>
+        </div>
+        <div class="flex-header1">
+            <img src="{{data.person_photo}}" alt="person_photo" width="300" height="300" style="width: 300px; height:300px; border-radius:100%;">
+            <div class="text1">
+                <h2>{{data.name}}</h2>
+                <h3>{{data.organization}}</h3>
+            </div>
+            <div class="total_score">
+                <p>SCORE</p>
+                <h2>{{data.total_score}}</h2>
+                <p class="difference">Formula</p>
+            </div>
+        </div>
+        <div class="category_score">
+            <div class="AI2">
+                <p class="AUDIO">AUDIO</p>
+                <h2>{{data.audio_score}}</h2>
+                <p class="difference">Formula</p>
+            </div>
+            <div class="AI2">
+                <p class="TEXT">TEXT</p>
+                <h2>{{data.text_score}}</h2>
+                <p class="difference">Formula</p>
+            </div>
+            <div class="AI2">
+                <p class="FACIAL">FACIAL</p>
+                <h2>{{data.facial_score}}</h2>
+                <p class="difference">Formula</p>
+            </div>
+        </div>
+        <div class="content">
+            <div id="report1" class="report-section">
+                <h2>Chart1</h2>
+                <img src="{{data.facial_chart}}" class="f_chart" alt="facial_chart" >
+            </div>
+            <div class="AI1">
+                <h2>AI Suggestion1</h2>
+                <p>{{data.ai_text1}}</p>
+            </div>
+            <div id="report2" class="report-section">
+                <h2>Chart2</h2>
+                <img src="{{data.text_chart}}" class="t_chart" alt="text_chart" >
+            </div>
+            <div class="AI1">
+                <h2>AI Suggestion2</h2>
+                <p>{{data.ai_text2}}</p>
+            </div>
+            <div id="report3" class="report-section">
+                <h2>Chart3</h2>
+                <img src="{{data.audio_chart}}" class="a_chart" alt="audio_chart" >
+            </div>
+            <div class="AI1">
+                <h2>AI Suggestion3</h2>
+                <p>{{data.ai_text3}}</p>
+            </div>
+        </div>
+        <form action="{{ url_for('download_pdf', _external=True) }}" method="get">
+            <button type="submit">Download</button>
+        </form>
+    </div>
+</body>
+</html>
