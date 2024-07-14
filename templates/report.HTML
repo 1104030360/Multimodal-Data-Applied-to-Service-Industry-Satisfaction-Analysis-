@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>整體員工報表</title>
+    <link rel="stylesheet" href="/static/css/report.css">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+    <div class="report-container">
+        <div>
+            <h1 class="title">ADAM</h1>
+        </div>
+        <div class="flex-header">
+            <div>
+                <h2>{{ data.name }}_Service_1</h2>
+            </div>
+            <div class="time">
+                <h3>From {{ data.time1 }} To {{ data.time2 }}</h3>
+            </div>
+        </div>
+        <div class="flex-header1">
+            <img src="{{ data.person_photo }}" width="300" height="300" style="width: 300px; height:300px; border-radius:100%;">
+            <div class="text1">
+                <h2>{{ data.name }}</h2>
+                <h3>{{ data.organization }}</h3>
+            </div>
+            <div class="total_score">
+                <p>SCORE</p>
+                <h2>{{ data.total_score }}</h2>
+                <p class="difference">Formula</p>
+            </div>
+        </div>
+        <div class="category_score">
+            <div class="AI2">
+                <p class="AUDIO">AUDIO</p>
+                <h2>{{ data.audio_score }}</h2>
+                <p class="difference">Formula</p>
+            </div>
+            <div class="AI2">
+                <p class="TEXT">TEXT</p>
+                <h2>{{ data.text_score }}</h2>
+                <p class="difference">Formula</p>
+            </div>
+            <div class="AI2">
+                <p class="FACIAL">FACIAL</p>
+                <h2>{{ data.facial_score }}</h2>
+                <p class="difference">Formula</p>
+            </div>
+        </div>
+
+        <div class="content">
+            <div id="report1" class="report-section">
+                <h2 class="r1">AUDIO</h2>
+                <div id="chart"></div>
+                <button id="facial_score_btn">Facial Score</button>
+                <button id="audio_score_btn">Audio Score</button>
+                <button id="text_score_btn">Text Score</button>
+                <button id="total_score_btn">Total Score</button>
+
+                <script src="/static/js/report_chart.js"></script>
+            </div>
+            <div class="AI1">
+                <h2>AI Suggestion1</h2>
+                <p>{{ data.ai_text1 }}</p>
+            </div>
+
+            <div class="report2">
+                <div id="report2" class="report-section">
+                    <h2 class="r2">TEXT</h2>
+                    <div id="chart2"></div>
+                    <script src="/static/js/radar_chart.js"></script>
+                </div>
+                <div class="AI3">
+                    <h2 class="AI_S2">AI Suggestion2</h2>
+                    <p>{{ data.ai_text2 }}</p>
+                </div>
+            </div>
+
+            <div class="report3">
+                <div id="report3"  class="report-section">
+                    <h2 class="r3">FACIAL</h2>
+                    <div id="chart3"></div>
+                    <script src="/static/js/pie_chart.js"></script> 
+                </div>           
+                <div class="AI4">
+                    <h2>AI Suggestion3</h2>
+                    <p>{{ data.ai_text3 }}</p>
+                </div>
+        </div>
+    </div>
+</body>
+</html>

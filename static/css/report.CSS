@@ -1,0 +1,200 @@
+.title {
+    position: relative;
+    font-size: 50px;
+}
+.title::after{
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background-color: #e3d7d7; /* 横线的颜色可以根据需要进行调整 */
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+.flex-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+.flex-header1 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.time{
+    margin-right: 1.5%;
+}
+
+.timmy-img {
+    width: 300px;
+    height: 300px;
+    border-radius: 100%;
+    margin-right: 20px; /* 調整圖片和文字之間的間距 */
+}
+
+.text1 {
+    font-size: 25px;
+    margin-left: 80px; /* 調整文字和圖片之間的間距 */
+}
+
+.text1 h3{
+    margin-top: -20px;
+    font-size: 20px;
+    color: gray;
+}
+
+.flex-container h3 { 
+    margin: 0;
+    text-align: right;
+}
+
+.category_score {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+
+.report-container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.header-line {
+    border-bottom: 2px solid #ccc; /* 添加底部邊框 */
+    margin-bottom: 20px; /* 添加一些空間，使線條與後面的內容分開 */
+}
+
+.content {
+    display: block;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.r1 {
+    text-align: center;
+    padding-left: 535px; /* 根據需要調整這個值 */
+    font-size: 45px;
+}
+
+.r2 {
+    text-align: center;
+    padding-left: 535px; /* 根據需要調整這個值 */
+    font-size: 45px;
+}
+
+.r3 {
+    text-align: center;
+    padding-left: 535px; /* 根據需要調整這個值 */
+    font-size: 45px;
+}
+
+.report-section {
+    width: 40%;
+    height: 60%;
+    margin: 20px 0;
+}
+.report2 {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.report3 {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+
+
+iframe {
+    border: none;
+}
+
+.AI1 {
+    width: 91.5\%;
+    margin: 20px 0;
+    padding: 40px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+
+.AI2 {
+    width: 40%;
+    margin: 50px 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.AI3 {
+    width: 35%;
+    height: 500px;
+    margin-top: 175px;
+    margin-right: 2px;
+    margin-left: 100px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.AI4 {
+    width: 35%;
+    height: 540px;
+    margin-top: 175px;
+    margin-right: 2px;
+    margin-left: 100px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    text-align: center;
+
+}
+
+.difference {
+    color: gray;
+}
+
+
+.total_score {
+    width: 25%;
+    margin-left: auto; /* 将元素推到右侧 */
+    margin-right: 15px;
+    padding: 50px;
+    
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+#chart3 {
+    position: relative;
+}
+
+.legend {
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+}
+
