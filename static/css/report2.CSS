@@ -1,19 +1,21 @@
 @page {
-    size: 420mm 700mm; /* 页面宽度为A2的宽度，高度增加到600mm */    
+    size: 420mm 730mm; /* 页面宽度为A2的宽度，高度增加到600mm */    
     margin: 5mm; /* 控制边距，单位可以是 'in', 'cm', 'mm', 'pt' 等 */
 }
 
 .title {
     position: relative;
-    font-size: 50px;
+    font-size: 60px;
+    margin-top: 10px;
+    margin-left: 30px;
 }
 .title::after{
     content: "";
     position: absolute;
     bottom: -10px;
-    left: 0;
+    left: -4.4%;
     height: 2px;
-    width: 100%;
+    width: 106.2%;
     background-color: #e3d7d7;
 }
 body {
@@ -27,19 +29,21 @@ body {
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+    margin-left: 30px;
 }
 .flex-header1 {
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+    
 }
 .time{
     margin-right: 1.5%;
 }
 
 .timmy-img {
-    width: 300px;
-    height: 300px;
+    width: 200px;
+    height: 200px;
     border-radius: 100%;
     margin-right: 20px;
 }
@@ -60,10 +64,27 @@ body {
     text-align: right;
 }
 
+
+.total_score p {
+    margin-bottom: 5px; /* 调整 margin-bottom */
+}
+
+.total_score h2 {
+    font-size: 70px;
+    margin: 5px 0; /* 添加 margin */
+}
+
+.total_score .difference {
+    margin-top: 5px; /* 调整 margin-top */
+}
+
+
+
 .category_score {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
+    page-break-inside: avoid; /* 避免分页时被拆分 */
 }
 
 .report-container {
@@ -73,6 +94,17 @@ body {
     background-color: #fff;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     page-break-inside: avoid; /* 避免内容在分页时被拆分 */
+}
+
+
+
+
+.bg-positive {
+    background-color: #4ef973; /* 浅绿色 */
+}
+
+.bg-negative {
+    background-color: #fcbe7f; /* 浅橙色 */
 }
 
 .header {
@@ -101,18 +133,27 @@ iframe {
 }
 
 .f_chart{
-    width: 500px;
+    width: 550px;
     height: 450px;
+    border: 1px solid #ddd;
+    border-radius: 15px; /* 添加圆角效果 */
+
 }
 
 .t_chart{
-    width: 450px;
+    width: 550px;
     height: 450px;
+    border: 1px solid #ddd;
+    border-radius: 15px; /* 添加圆角效果 */
+
 }
 
 .a_chart{
-    width: 500px;
+    width: 550px;
     height: 450px;
+    border: 1px solid #ddd;
+    border-radius: 15px; /* 添加圆角效果 */
+
 }
 
 .AI1 {
@@ -121,17 +162,44 @@ iframe {
     padding: 20px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
-    text-align: center;
+    text-align: left;
+    border-radius: 15px; /* 添加圆角效果 */
 }
 
-.AI2 {
+.AI2_1{
     width: 40%;
     margin: 50px 20px;
     padding: 20px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     text-align: left;
+    border-radius: 15px; /* 添加圆角效果 */
 }
+
+.AI2_2{
+    width: 40%;
+    margin: 50px 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    text-align: left;
+    border-radius: 15px; /* 添加圆角效果 */
+}
+
+
+.AI2_3{
+    width: 40%;
+    margin: 50px 20px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    text-align: left;
+    border-radius: 15px; /* 添加圆角效果 */
+}
+
+
+
+
 
 .difference {
     color: gray;
@@ -145,6 +213,7 @@ iframe {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     text-align: left;
+    border-radius: 15px; /* 添加圆角效果 */
 }
 
 @font-face {
@@ -154,5 +223,9 @@ iframe {
 
 body {
     font-family: 'Noto Sans TC', sans-serif;
+}
+
+.gray-text {
+    color: gray;
 }
 
