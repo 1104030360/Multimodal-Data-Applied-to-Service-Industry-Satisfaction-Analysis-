@@ -32,20 +32,27 @@
             </div>
         </div>
         <div class="category_score">
-            <div class="AI2_1"  style="background-color: {{ '#4ef973' if data.audio_score > 70 else '#fcbe7f;' }};">
-                <p class="AUDIO">AUDIO</p>
-                <h2 style="font-size: 35px;">{{data.audio_score}}</h2>
-                <p class="difference">Formula</p>
+            <div class="AI2_1"  style="background-color: {{ '#4ef973' if data.audio_score > 70 else '#fcbe7f;' }}; height: 150px;">
+                <div class="AI2_11">
+                    <p class="AUDIO" style="margin-bottom: 7px;">AUDIO</p>
+                    <h2 style="font-size: 35px;margin: 5px 0;">{{data.audio_score}}</h2>
+                    <p class="difference" style="margin-top: 7px;">Formula</p>
+                </div>
             </div>
-            <div class="AI2_2" style="background-color: {{ '#4ef973' if data.text_score > 70 else '#fcbe7f;' }};">
-                <p class="TEXT">TEXT</p>
-                <h2 style="font-size: 35px;">{{data.text_score}}</h2>
-                <p class="difference">Formula</p>
+            <div class="AI2_2" style="background-color: {{ '#4ef973' if data.text_score > 70 else '#fcbe7f;' }}; height: 150px;">
+                <div class="AI2_12">
+                    <p class="TEXT" style="margin-bottom: 7px;">TEXT</p>
+                    <h2 style="font-size: 35px;margin: 5px 0;">{{data.text_score}}</h2>
+                    <p class="difference" style="margin-top: 7px;">Formula</p>
+                </div>
             </div>
-            <div class="AI2_3" style="background-color: {{ '#4ef973' if data.facial_score > 70 else '#fcbe7f;' }};">
-                <p class="FACIAL">FACIAL</p>
-                <h2 style="font-size: 35px;">{{data.facial_score}}</h2>
-                <p class="difference">Formula</p>
+            <div class="AI2_3" style="background-color: {{ '#4ef973' if data.facial_score > 70 else '#fcbe7f;' }}; height: 150px;">
+                <div class="AI2_13">
+                    <p class="FACIAL" style="margin-bottom: 7px;">FACIAL</p>
+                    <h2 style="font-size: 35px; margin: 5px 0;">{{data.facial_score}}</h2>
+                    <p class="difference" style="margin-top: 7px;">Formula</p>
+                    
+                </div>
             </div>
         </div>
         <div class="content">

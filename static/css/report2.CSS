@@ -87,6 +87,18 @@ body {
     page-break-inside: avoid; /* 避免分页时被拆分 */
 }
 
+.AI2_11 {
+    margin: -6px 20px 50px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
+}
+
+.AI2_12 {
+    margin: -6px 20px 50px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
+}
+
+.AI2_13 {
+    margin: -6px 20px 50px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
+}
+
 .report-container {
     max-width: 1200px;
     margin: auto;
@@ -137,7 +149,7 @@ iframe {
     height: 450px;
     border: 1px solid #ddd;
     border-radius: 15px; /* 添加圆角效果 */
-
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
 }
 
 .t_chart{
@@ -145,6 +157,7 @@ iframe {
     height: 450px;
     border: 1px solid #ddd;
     border-radius: 15px; /* 添加圆角效果 */
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
 
 }
 
@@ -153,6 +166,7 @@ iframe {
     height: 450px;
     border: 1px solid #ddd;
     border-radius: 15px; /* 添加圆角效果 */
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
 
 }
 
@@ -164,16 +178,21 @@ iframe {
     border: 1px solid #ddd;
     text-align: left;
     border-radius: 15px; /* 添加圆角效果 */
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+
 }
 
 .AI2_1{
     width: 40%;
+    
     margin: 50px 20px;
     padding: 20px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     text-align: left;
     border-radius: 15px; /* 添加圆角效果 */
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+
 }
 
 .AI2_2{
@@ -184,6 +203,8 @@ iframe {
     border: 1px solid #ddd;
     text-align: left;
     border-radius: 15px; /* 添加圆角效果 */
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+
 }
 
 
@@ -195,6 +216,8 @@ iframe {
     border: 1px solid #ddd;
     text-align: left;
     border-radius: 15px; /* 添加圆角效果 */
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+
 }
 
 
@@ -214,6 +237,8 @@ iframe {
     border: 1px solid #ddd;
     text-align: left;
     border-radius: 15px; /* 添加圆角效果 */
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+
 }
 
 @font-face {
