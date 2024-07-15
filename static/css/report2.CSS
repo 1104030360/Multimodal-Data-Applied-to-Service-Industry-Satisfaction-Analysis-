@@ -147,4 +147,12 @@ iframe {
     text-align: left;
 }
 
+@font-face {
+    font-family: 'Noto Sans TC';
+    src: url('/static/fonts/NotoSansTC-VariableFont_wght.ttf') format('truetype');
+}
+
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+}
 
