@@ -1,1 +1,1 @@
-Radar_text
+Average_total_score

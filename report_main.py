@@ -29,6 +29,10 @@ data_store = {
     "Bar_total_summarize_text": "",  # 假设有一个对应总分的建议
     "Radar_text": "",
     "Pie_text": "",
+    "Average_facial_score": 0.0,
+    "Average_audio_score": 0.0,
+    "Average_text_score": 0.0,
+    "Average_total_score": 0.0,
 }
 
 
@@ -50,6 +54,10 @@ def load_csv_data(filepath):
             if key in df.columns:
                 print(f"Updating {key} with value {df[key].iloc[0]}")  # 打印更新的键和值
                 data_store[key] = df[key].iloc[0]  # 取 CSV 文件中的第一行数据
+                data_store["Average_audio_score"] = round(df["audio_score"].mean(), 1)
+                data_store["Average_facial_score"] = round(df["facial_score"].mean(), 1)
+                data_store["Average_text_score"] = round(df["text_score"].mean(), 1)
+                data_store["Average_total_score"] = round(df["total_score"].mean(), 1)
         # 生成图片和图表路径
         name = data_store.get("name", "")
         if name:
