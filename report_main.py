@@ -23,7 +23,14 @@ data_store = {
     "ai_text2": "",
     "ai_text3": "",
     "person_photo": "", 
+    "Bar_facial_summarize_text": "",
+    "Bar_audio_summarize_text": "",
+    "Bar_text_summarize_text": "",
+    "Bar_total_summarize_text": "",  # 假设有一个对应总分的建议
+    "Radar_text": "",
+    "Pie_text": "",
 }
+
 
 def update_image_paths(name):
     img_folder = 'static/img'
@@ -31,6 +38,7 @@ def update_image_paths(name):
     for file in files:
         if f"person_photo_{name}" in file:
             data_store["person_photo"] = os.path.join(img_folder, file)  # 使用相对路径
+            
 
 def load_csv_data(filepath):
     try:
@@ -53,11 +61,13 @@ def load_csv_data(filepath):
         print("Data store updated:", data_store)  # 打印更新后的 data_store
     except Exception as e:
         print(f"Error loading CSV file: {e}")
+        
 
 @app.route('/')
 def report():
     """根路由，渲染报告页面"""
     return render_template('report.html', data=data_store)
+
 
 @app.route('/update', methods=['POST'])
 def update_data():
@@ -65,6 +75,7 @@ def update_data():
     new_data = request.json
     data_store.update(new_data)
     return jsonify({"status": "success"})
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -99,6 +110,24 @@ def upload_file():
     
     return jsonify({"status": "error", "message": "Invalid file type"})
 
+
+# Flask app
+@app.route('/api/get_ai_suggestion', methods=['GET'])
+def get_ai_suggestion():
+    score_type = request.args.get('type')
+    suggestion_map = {
+        "summarize_text1": data_store['Bar_facial_summarize_text'],
+        "summarize_text2": data_store['Bar_audio_summarize_text'],
+        "summarize_text3": data_store['Bar_text_summarize_text'],
+        "summarize_text4": data_store['Bar_total_summarize_text']  # 假设有一个对应总分的建议
+    }
+    return jsonify(suggestion=suggestion_map.get(score_type, "No suggestion found")) # 給report_chart.js
+
+
+
+
+
+
 @app.route('/download_pdf', methods=['GET'])
 def download_pdf():
     """生成 PDF 并下载"""
@@ -124,10 +153,12 @@ def download_pdf():
     except IOError as e:
         print(f"Error generating PDF: {e}")
         return "PDF 生成错误", 500
-
+    
+    
 def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")
-
+    
+    
 if __name__ == '__main__':
     # 在应用启动时加载预定义的 CSV 文件
     predefined_csv_path = os.path.join('static', 'csv', 'test-2.csv')

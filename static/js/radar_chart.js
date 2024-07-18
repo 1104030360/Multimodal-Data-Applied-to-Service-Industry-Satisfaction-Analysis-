@@ -29,8 +29,8 @@ document.addEventListener("DOMContentLoaded", function() {
     // RadarChart function
     function RadarChart(id, data, options) {
         var cfg = {
-            w: 600,
-            h: 600,
+            w: 800,
+            h: 800,
             margin: { top: 20, right: 20, bottom: 20, left: 20 },
             levels: 3,
             maxValue: 100, // 确保最大值为100

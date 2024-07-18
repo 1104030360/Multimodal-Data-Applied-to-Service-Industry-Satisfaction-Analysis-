@@ -6,10 +6,10 @@
     content: "";
     position: absolute;
     bottom: -10px;
-    left: 0;
+    left: -1.8%;
     height: 2px;
-    width: 100%;
-    background-color: #e3d7d7; /* 横线的颜色可以根据需要进行调整 */
+    width: 103.5%;
+    background-color: #e3d7d7;
 }
 body {
     font-family: Arial, sans-serif;
@@ -60,6 +60,22 @@ body {
     justify-content: space-between;
     margin-bottom: 20px;
 }
+
+
+.AI2_11 {
+    margin: -6px 20px 50px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
+}
+
+.AI2_12 {
+    margin: -6px 20px 50px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
+}
+
+.AI2_13 {
+    margin: -6px 20px 50px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
+}
+
+
+
 
 
 .report-container {
@@ -136,6 +152,8 @@ iframe {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     text-align: center;
+    border-radius: 15px; /* 添加圆角效果 */
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
 }
 
 
@@ -146,6 +164,8 @@ iframe {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     text-align: left;
+    border-radius: 15px; /* 添加圆角效果 */
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
 }
 
 .AI3 {
@@ -158,6 +178,8 @@ iframe {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     text-align: center;
+    border-radius: 15px; /* 添加圆角效果 */
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
 }
 
 .AI4 {
@@ -170,7 +192,9 @@ iframe {
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     text-align: center;
-
+    border-radius: 15px; /* 添加圆角效果 */
+    border-radius: 15px; /* 添加圆角效果 */
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
 }
 
 .difference {
@@ -180,13 +204,15 @@ iframe {
 
 .total_score {
     width: 25%;
-    margin-left: auto; /* 将元素推到右侧 */
+    margin-left: auto;
     margin-right: 15px;
     padding: 50px;
-    
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     text-align: left;
+    border-radius: 15px; /* 添加圆角效果 */
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+
 }
 
 #chart3 {
@@ -198,3 +224,203 @@ iframe {
     font-family: Arial, sans-serif;
 }
 
+
+.gray-text {
+    color: gray;
+}
+
+
+
+
+
+
+#facial_score_btn,
+#facial_score_btn:focus {
+    position: relative;
+    min-width: 200px;
+    background-color: rgb(104, 102, 107);
+    border-radius: 4em;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition-duration: 0.4s;
+    padding: 10px 20px;
+    margin-left: 75px;
+}
+#facial_score_btn:hover {
+    background-color: #3A3A3A;
+    color: white;
+    transition-duration: 0.1s;}
+
+#facial_score_btn:after {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0;
+        top:0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: all 0.5s;
+        box-shadow: 0 0 10px 40px white;
+        border-radius: 4em;
+}
+
+#facial_score_btn:active:after {
+    opacity: 1;
+    transition: 0s;
+    box-shadow: 0 0 0 0 rgb(73, 70, 70);
+}
+
+#facial_score_btn:active {
+    top: 1px;
+}
+
+.flexbutton {
+    display: flex;
+}
+
+
+#audio_score_btn,
+#audio_score_btn:focus {
+    position: relative;
+    min-width: 200px;
+    background-color: rgb(104, 102, 107);;
+    border-radius: 4em;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition-duration: 0.4s;
+    padding: 10px 20px;
+    margin-left: 75px;
+}
+#audio_score_btn:hover {
+    background-color: #3A3A3A;
+    color: white;
+    transition-duration: 0.1s;}
+
+#audio_score_btn:after {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0;
+        top:0;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: all 0.5s;
+        box-shadow: 0 0 10px 40px white;
+        border-radius: 4em;
+}
+
+#audio_score_btn:active:after {
+    opacity: 1;
+    transition: 0s;
+    box-shadow: 0 0 0 0 rgb(73, 70, 70);
+}
+
+#audio_score_btn:active {
+    top: 1px;
+}
+
+
+#text_score_btn,
+#text_score_btn:focus {
+    position: relative;
+    min-width: 200px;
+    background-color: rgb(104, 102, 107);;
+    border-radius: 4em;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition-duration: 0.4s;
+    padding: 10px 20px;
+    margin-left: 75px;
+}
+#text_score_btn:hover {
+    background-color: #3A3A3A;
+    color: white;
+    transition-duration: 0.1s;}
+
+
+#text_score_btn:after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: all 0.5s;
+    box-shadow: 0 0 10px 40px white;
+    border-radius: 4em;
+}
+
+#text_score_btn:active:after {
+opacity: 1;
+transition: 0s;
+box-shadow: 0 0 0 0 rgb(73, 70, 70);
+}
+
+
+#text_score_btn:active {
+top: 1px;
+}
+
+
+#total_score_btn,
+#total_score_btn:focus {
+    position: relative;
+    min-width: 200px;
+    background-color: rgb(104, 102, 107);;
+    border-radius: 4em;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    transition-duration: 0.4s;
+    padding: 10px 20px;
+    margin-left: 75px;
+}
+#total_score_btn:hover {
+    background-color: #3A3A3A;
+    color: white;
+    transition-duration: 0.1s;}
+
+
+#total_score_btn:after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: all 0.5s;
+    box-shadow: 0 0 10px 40px white;
+    border-radius: 4em;
+}
+
+#total_score_btn:active:after {
+opacity: 1;
+transition: 0s;
+box-shadow: 0 0 0 0 rgb(73, 70, 70);
+}
+
+#total_score_btn:active {
+top: 1px;
+}
+    
