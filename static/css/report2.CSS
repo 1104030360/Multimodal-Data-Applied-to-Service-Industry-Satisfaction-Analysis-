@@ -150,6 +150,7 @@ iframe {
     border: 1px solid #ddd;
     border-radius: 15px; /* 添加圆角效果 */
     box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+    filter: contrast(1.5);
 }
 
 .t_chart{
@@ -158,6 +159,7 @@ iframe {
     border: 1px solid #ddd;
     border-radius: 15px; /* 添加圆角效果 */
     box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+    filter: contrast(1.5);
 
 }
 
@@ -167,6 +169,7 @@ iframe {
     border: 1px solid #ddd;
     border-radius: 15px; /* 添加圆角效果 */
     box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+    filter: contrast(1.5);
 
 }
 
@@ -253,4 +256,10 @@ body {
 .gray-text {
     color: gray;
 }
+
+
+.img-contrast {
+    filter: contrast(1.5);
+}
+
 

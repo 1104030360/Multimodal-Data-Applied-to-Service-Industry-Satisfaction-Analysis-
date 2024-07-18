@@ -62,15 +62,54 @@
             </div>
             <div class="AI1">
                 <h2>AI COMMENT</h2>
-                <p>{{data.ai_text1}}</p>
+                <p id="Ftext">{{data.ai_text1}}</p>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        var faceElement = document.getElementById('Ftext');
+                        var faceToWrite = faceElement.innerText;
+                        faceElement.innerText = ''; // Clear the text field
+                    
+                        var i = 0;
+                        function typeWriter() {
+                            if (i < faceToWrite.length) {
+                                faceElement.innerHTML += faceToWrite.charAt(i);
+                                i++;
+                                setTimeout(typeWriter, 50); // Adjust typing speed by changing the timeout value
+                            }
+                        }
+                    
+                        typeWriter(); // Initialize the typing effect
+                    });
+                </script>
+
+
             </div>
+           
             <div id="report2" class="report-section">
                 <h2>AUDIO</h2>
                 <img src="{{data.text_chart}}" class="t_chart" alt="text_chart" >
             </div>
             <div class="AI1">
                 <h2>AI COMMENT</h2>
-                <p>{{data.ai_text2}}</p>
+                <p id="Atext"> {{data.ai_text2}}</p>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        var AudioElement = document.getElementById('Atext');
+                        var AudioToWrite = AudioElement.innerText;
+                        AudioElement.innerText = ''; // Clear the text field
+                    
+                        var i = 0;
+                        function typeWriter() {
+                            if (i < AudioToWrite.length) {
+                                AudioElement.innerHTML += AudioToWrite.charAt(i);
+                                i++;
+                                setTimeout(typeWriter, 50); // Adjust typing speed by changing the timeout value
+                            }
+                        }
+                    
+                        typeWriter(); // Initialize the typing effect
+                    });
+                </script>
             </div>
             <div id="report3" class="report-section">
                 <h2>TEXT</h2>
@@ -78,7 +117,25 @@
             </div>
             <div class="AI1">
                 <h2>AI COMMENT</h2>
-                <p>{{data.ai_text3}}</p>
+                <p id="Stext">{{data.ai_text3}}</p>
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        var tElement = document.getElementById('Stext');
+                        var tToWrite = tElement.innerText;
+                        tElement.innerText = ''; // Clear the text field
+                    
+                        var i = 0;
+                        function typeWriter() {
+                            if (i < tToWrite.length) {
+                                tElement.innerHTML += tToWrite.charAt(i);
+                                i++;
+                                setTimeout(typeWriter, 50); // Adjust typing speed by changing the timeout value
+                            }
+                        }
+                    
+                        typeWriter(); // Initialize the typing effect
+                    });
+                </script>
             </div>
         </div>
         <form action="{{ url_for('download_pdf', _external=True) }}" method="get">
