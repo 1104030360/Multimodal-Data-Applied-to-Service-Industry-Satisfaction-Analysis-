@@ -14,21 +14,25 @@
         </div>
         <div class="flex-header">
             <div>
-                <h2>{{ data.name }}_Service_1</h2>
+                <h2 class="name"> <span class="text0">Here is the information of your department.</span></h2>
             </div>
             <div class="time">
                 <h3>From <span class="gray-text">{{data.time1}}</span> To <span class="gray-text">{{data.time2}}</span></h3>
             </div>
         </div>
         <div class="flex-header1">
-            <img src="{{ data.person_photo }}" width="300" height="300" style="width: 300px; height:300px; border-radius:100%;">
             <div class="text1">
-                <h2>{{ data.name }}</h2>
-                <h3>{{ data.organization }}</h3>
+                <h2 >{{ data.Manager_name }}</h2>
+                <h3>{{ data.Manager_organization }}</h3>
+            </div>
+            <div class="total">
+                <p>HC</p>
+                <h2 style="font-size:35px">{{ data.Average_total_score }}</h2>
+                <p class="difference">Formula</p>
             </div>
             <div class="total_score">
                 <p>SCORE</p>
-                <h2>{{ data.Average_total_score }}</h2>
+                <h2 style="font-size:35px">{{ data.Average_total_score }}</h2>
                 <p class="difference">Formula</p>
             </div>
         </div>
@@ -36,21 +40,21 @@
             <div class="AI2" style="background-color: {{ '#4ef973' if data.audio_score > 70 else '#fcbe7f;' }}; height: 150px;">
                 <div class="AI2_11">
                     <p class="AUDIO">AUDIO</p>
-                    <h2>{{ data.Average_audio_score }}</h2>
+                    <h2 class="Average_Point">{{ data.Average_audio_score }}</h2>
                     <p class="difference">Formula</p>
                 </div>
             </div>
             <div class="AI2"style="background-color: {{ '#4ef973' if data.text_score > 70 else '#fcbe7f;' }}; height: 150px;" >
                 <div class="AI2_12">
                     <p class="TEXT">TEXT</p>
-                    <h2>{{ data.Average_text_score }}</h2>
+                    <h2 class="Average_Point">{{ data.Average_text_score }}</h2>
                     <p class="difference">Formula</p>
                 </div>
             </div>
             <div class="AI2" style="background-color: {{ '#4ef973' if data.facial_score > 70 else '#fcbe7f;' }}; height: 150px;">
                 <div class="AI2_13">
                     <p class="FACIAL">FACIAL</p>
-                    <h2>{{ data.Average_facial_score }}</h2>
+                    <h2 class="Average_Point">{{ data.Average_facial_score }}</h2>
                     <p class="difference">Formula</p>
                 </div>
             </div>

@@ -39,13 +39,27 @@ body {
     margin-right: 20px; /* 調整圖片和文字之間的間距 */
 }
 
-.text1 {
+
+.name {
+    font-size: 30px;
+    margin-left: 30px;
+}
+
+
+.text0 {
     font-size: 25px;
-    margin-left: 80px; /* 調整文字和圖片之間的間距 */
+    margin-top: 1px;
+
+}
+
+.text1 {
+    font-size: 40px;
+    margin-top: 1px;
+    margin-left: 60px; /* 調整文字和圖片之間的間距 */
 }
 
 .text1 h3{
-    margin-top: -20px;
+    margin-top: -30px;
     font-size: 20px;
     color: gray;
 }
@@ -63,15 +77,15 @@ body {
 
 
 .AI2_11 {
-    margin: -6px 20px 50px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
+    margin: -5px 20px 30px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
 }
 
 .AI2_12 {
-    margin: -6px 20px 50px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
+    margin: -5px 20px 30px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
 }
 
 .AI2_13 {
-    margin: -6px 20px 50px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
+    margin: -5px 20px 30px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
 }
 
 
@@ -94,6 +108,11 @@ body {
 .header-line {
     border-bottom: 2px solid #ccc; /* 添加底部邊框 */
     margin-bottom: 20px; /* 添加一些空間，使線條與後面的內容分開 */
+}
+
+.Average_Point {
+    font-size: 30px;
+    margin: 0;
 }
 
 .content {
@@ -203,15 +222,30 @@ iframe {
 
 
 .total_score {
-    width: 25%;
+    width: 23%;
     margin-left: auto;
-    margin-right: 15px;
+    margin-right: 10px;
     padding: 50px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     text-align: left;
     border-radius: 15px; /* 添加圆角效果 */
     box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+
+}
+
+.total {
+    width: 23%;
+    margin-left: auto;
+    margin-left: 200px;
+    margin-right: 5px;
+    padding: 50px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    text-align: left;
+    border-radius: 15px; /* 添加圆角效果 */
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+
 
 }
 

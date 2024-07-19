@@ -11,10 +11,12 @@ app = Flask(__name__)
 
 # 模拟存储数据
 data_store = {
+    "Manager_name": "",
+    "Manager_organization":"",
     "time1": "",
     "time2": "",
     "name": "",
-    "organization": "",
+    "organization": [],
     "total_score": 0.0,
     "audio_score": 0.0,
     "text_score": 0.0,
@@ -54,6 +56,8 @@ def load_csv_data(filepath):
             if key in df.columns:
                 print(f"Updating {key} with value {df[key].iloc[0]}")  # 打印更新的键和值
                 data_store[key] = df[key].iloc[0]  # 取 CSV 文件中的第一行数据
+                
+                data_store["organization"] = ', '.join(df["organization"].tolist())  # 将所有组织信息合并为一个字符串                
                 data_store["Average_audio_score"] = round(df["audio_score"].mean(), 1)
                 data_store["Average_facial_score"] = round(df["facial_score"].mean(), 1)
                 data_store["Average_text_score"] = round(df["text_score"].mean(), 1)

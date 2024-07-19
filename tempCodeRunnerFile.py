@@ -1,1 +1,1 @@
-Average_total_score
+pdate_image_path
