@@ -22,7 +22,6 @@ AI_FRIEND_REPORT_TIMMY/
 ├── report2_main.py
 
 ├── static/
-
 │   ├── css/
 
 │   │   └── report2.css
