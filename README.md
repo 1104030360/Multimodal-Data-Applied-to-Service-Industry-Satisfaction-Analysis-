@@ -11,7 +11,7 @@ D3.js
 
 # 啟動方式：
 
-執行report2_main.py
+執行report_main.py
 
 
 ## 安裝命令
