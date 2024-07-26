@@ -37,7 +37,7 @@
 
 # 啟動方式：
 
-執行Auto_Switch.py 會有自動開關效果這隻程式會連接到project.py 開始情緒服務
+執行Auto_Switch.py 會有自動開關效果這隻程式會連接到project.py 的程式開始情緒服務
 
 執行project.py 只有情緒分析服務沒有自動開關效果
 
