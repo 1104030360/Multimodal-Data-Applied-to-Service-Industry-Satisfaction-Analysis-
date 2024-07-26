@@ -8,7 +8,6 @@ Flask
 
 Pandas
 
-
 D3.js
 
 
