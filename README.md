@@ -10,7 +10,9 @@ Pandas
 
 WeasyPrint
 
+# 啟動方式：
 
+執行report2_main.py
 
 ## 安裝命令
 
