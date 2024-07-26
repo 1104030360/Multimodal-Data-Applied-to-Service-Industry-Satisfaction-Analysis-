@@ -18,15 +18,26 @@ pip install flask pandas weasyprint
 
 AI_FRIEND_REPORT_TIMMY/
 │
+
 ├── report2_main.py
+
 ├── static/
+
 │   ├── css/
+
 │   │   └── report2.css
+
 │   ├── img/
+
 │   │   └── (圖片文件)
+
 │   ├── csv/
+
 │   │   └── test-2.csv
+
 │   ├── fonts/
+
 │   │   └── test-2.csv
+
 └── templates/
     └── report2.html
