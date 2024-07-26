@@ -7,7 +7,7 @@ Flask
 
 Pandas
 
-D3.js
+D3.js(直接在程式碼匯入)
 
 # 啟動方式：
 
