@@ -50,10 +50,12 @@ Pillow
 
 Matplotlib
 
+Sys
+
 ## 安裝命令
 
 ```sh
-pip install keras opencv-python numpy deepface pillow matplotlib
+pip install tensorflow keras opencv-python-headless deepface pillow matplotlib numpy
 ```
 
 ### 內容
