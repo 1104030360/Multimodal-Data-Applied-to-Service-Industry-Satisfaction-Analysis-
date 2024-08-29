@@ -1,19 +1,23 @@
 import multiprocessing
+import subprocess
 from flask import Flask, render_template, request, jsonify, redirect, url_for, send_file
 import pandas as pd
 import os
 import shutil
 import webbrowser
+import json
 from threading import Timer
-from weasyprint import HTML, CSS
+
 
 app = Flask(__name__)
 
-# 模拟存储数据
+# CSV檔抓到的數據
 data_store = {
     "Manager_name": "",
     "Manager_organization": "",
-    "HC": 0.0,
+    "Departmental_Information": "",
+    "Organization_Name": "",
+    "Service_Number": 0.0,
     "time1": "",
     "time2": "",
     "name": "",
@@ -29,7 +33,7 @@ data_store = {
     "Bar_facial_summarize_text": "",
     "Bar_audio_summarize_text": "",
     "Bar_text_summarize_text": "",
-    "Bar_total_summarize_text": "",  # 假设有一个对应总分的建议
+    "Bar_total_summarize_text": "",  
     "Radar_text": "",
     "Pie_text": "",
     "Average_facial_score": 0.0,
@@ -38,15 +42,15 @@ data_store = {
     "Average_total_score": 0.0,
 }
 
-
+# 導入照片的地方
 def update_image_paths(name):
     img_folder = 'static/img'
     files = os.listdir(img_folder)
     for file in files:
         if f"person_photo_{name}" in file:
-            data_store["person_photo"] = os.path.join(img_folder, file)  # 使用相对路径
+            data_store["person_photo"] = os.path.join(img_folder, file)  
             
-
+# 導入CSV檔地方
 def load_csv_data(filepath):
     try:
         df = pd.read_csv(filepath)
@@ -139,37 +143,19 @@ def get_ai_suggestion():
     }
     return jsonify(suggestion=suggestion_map.get(score_type, "No suggestion found")) # 給report_chart.js
 
-
-
-
-
-
-@app.route('/download_pdf', methods=['GET'])
-def download_pdf():
+# 生成PDF的地方
+@app.route('/download_pdf1', methods=['GET'])
+def download_pdf1():
     """生成 PDF 并下载"""
+
     try:
-        rendered = render_template('report2.html', data=data_store)
-        pdf_folder = 'static/pdf'
-        pdf_filename = 'report2.pdf'
-        pdf_path = os.path.join(pdf_folder, pdf_filename)
-
-        # 确保目录存在
-        if not os.path.exists(pdf_folder):
-            os.makedirs(pdf_folder)
-
-        # 渲染HTML和CSS
-        html = HTML(string=rendered, base_url=request.url_root)
-        css = CSS(filename=os.path.join('static', 'css', 'report2.css'))
-
-        # 生成PDF
-        html.write_pdf(pdf_path, stylesheets=[css])
-        print(f"PDF saved to {pdf_path}")
-
-        return send_file(pdf_path, as_attachment=True)
+        # 调用 Puppeteer 生成 PDF
+        subprocess.run(["node", "generate_pdf.js"], check=True)
+        
+        return send_file("static/pdf/report1.pdf", as_attachment=True)
     except IOError as e:
         print(f"Error generating PDF: {e}")
         return "PDF 生成错误", 500
-    
     
 def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")

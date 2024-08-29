@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>整體員工報表</title>
     <link rel="stylesheet" href="/static/css/report.css">
+
     <script src="https://d3js.org/d3.v6.min.js"></script>
 </head>
 <body>
     <div class="report-container">
         <div>
-            <h1 class="title">ADAM</h1>
+            <h1 class="title">{{data.Organization_Name}}</h1>
         </div>
         <div class="flex-header">
             <div>
-                <h2 class="name"> <span class="text0">Here is the information of your department.</span></h2>
+                <h2 class="name"> <span class="text0">{{data.Departmental_Information}}</span></h2>
             </div>
             <div class="time">
                 <h3>From <span class="gray-text">{{data.time1}}</span> To <span class="gray-text">{{data.time2}}</span></h3>
@@ -26,8 +27,8 @@
                 <h3>{{ data.Manager_organization }}</h3>
             </div>
             <div class="total">
-                <p>HC</p>
-                <h2 style="font-size:35px">{{ data.HC }}</h2>
+                <p>SERVICE NUMBER</p>
+                <h2 style="font-size:35px">{{ data.Service_Number | int}}</h2>
                 <p class="difference">Formula</p>
             </div>
             <div class="total_score">
@@ -60,102 +61,79 @@
             </div>
         </div>
 
+
+
+
         <div class="content">
             <div id="report1" class="report-section">
-                <h2 class="r1">Bar</h2>
                 <div id="chart"></div>
-                <div class=" flexbutton">
-                    <button  href="javascript: void(0)" id="facial_score_btn">Facial Score</button>
+                <!--<div class=" flexbutton">-->
+                    <!--<button  href="javascript: void(0)" id="facial_score_btn">Facial Score</button>
                     <button id="audio_score_btn">Audio Score</button>
                     <button id="text_score_btn">Text Score</button>
-                    <button id="total_score_btn">Total Score</button>
-
-                    <script src="/static/js/report_chart.js"></script>
-                </div>
+                    <button id="total_score_btn">Total Score</button>-->
+                <!--</div>-->
+                <script src="/static/js/report_chart.js"></script>
             </div>
+            
+
+            <div id="report2" class="report-section1" >
+                <div id="chart1"><!-- 确保 id 唯一 -->
+                    <!--<div class=" flexbutton">-->
+                        <!--<button  href="javascript: void(0)" id="facial_score_btn">Facial Score</button>
+                        <button id="audio_score_btn">Audio Score</button>
+                        <button id="text_score_btn">Text Score</button>
+                        <button id="total_score_btn">Total Score</button>--> 
+                    <!--</div>-->
+                    <script src="/static/js/report_chart1.js"></script>
+                </div>
+                    
+            </div>
+
+            <div id="report3" class="report-section2" >
+                <div id="chart3"></div> 
+                <script src="/static/js/report_chart2.js"></script>
+            </div>
+
+            <div id="report4" class="report-section3">
+                <div id="chart4"></div> 
+                <script src="/static/js/report_chart3.js"></script>
+            </div>
+
+            <div id="report5" class="report-section4">
+                <div id="chart2"></div> 
+                <script src="/static/js/radar_chart.js"></script>
+            </div>
+
+
             <div class="AI1">
                 <h2>AI Suggestion1</h2>
-                <p id="ai_suggestion_text">{{ data.Bar_total_summarize_text }}</p><!--動態更新-->
+                <p id="ai_suggestion_text">{{ data.Bar_total_summarize_text }}</p>
                 <script>
                     document.addEventListener("DOMContentLoaded", function() {
                         var facialElement = document.getElementById('ai_suggestion_text');
                         var facialToWrite = facialElement.innerText;
                         facialElement.innerText = ''; // Clear the text field
-                    
+                        
                         var i = 0;
                         function typeWriter() {
                             if (i < facialToWrite.length) {
                                 facialElement.innerHTML += facialToWrite.charAt(i);
                                 i++;
-                                setTimeout(typeWriter, 50); // Adjust typing speed by changing the timeout value
+                                setTimeout(typeWriter, 1); // Adjust typing speed by changing the timeout value
                             }
                         }
-                    
                         typeWriter(); // Initialize the typing effect
                     });
                 </script>
             </div>
+                         
 
-            <div class="report2">
-                <div id="report2" class="report-section">
-                    <h2 class="r2">Radar</h2>
-                    <div id="chart2"></div>
-                    <script src="/static/js/radar_chart.js"></script>
-                </div>
-                <div class="AI3">
-                    <h2 class="AI_S2">AI Suggestion2</h2>
-                    <p id="radar_text">{{ data.Radar_text }}</p>
-                    <script>
-                        document.addEventListener("DOMContentLoaded", function() {
-                            var textElement = document.getElementById('radar_text');
-                            var textToWrite = textElement.innerText;
-                            textElement.innerText = ''; // Clear the text field
-                        
-                            var i = 0;
-                            function typeWriter() {
-                                if (i < textToWrite.length) {
-                                    textElement.innerHTML += textToWrite.charAt(i);
-                                    i++;
-                                    setTimeout(typeWriter, 50); // Adjust typing speed by changing the timeout value
-                                }
-                            }
-                        
-                            typeWriter(); // Initialize the typing effect
-                        });
-                    </script>
-
-                </div>
-            </div>
-
-            <div class="report3">
-                <div id="report3"  class="report-section">
-                    <h2 class="r3">Pie</h2>
-                    <div id="chart3"></div>
-                    <script src="/static/js/pie_chart.js"></script> 
-                </div>           
-                <div class="AI4">
-                    <h2>AI Suggestion3</h2>
-                    <p id="Pie_text">{{ data.Pie_text }}</p>
-                        <script>
-                            document.addEventListener("DOMContentLoaded", function() {
-                                var PieElement = document.getElementById('Pie_text');
-                                var PieToWrite = PieElement.innerText;
-                                PieElement.innerText = ''; // Clear the text field
-                            
-                                var i = 0;
-                                function typeWriter() {
-                                    if (i < PieToWrite.length) {
-                                        PieElement.innerHTML += PieToWrite.charAt(i);
-                                        i++;
-                                        setTimeout(typeWriter, 100); // Adjust typing speed by changing the timeout value
-                                    }
-                                }
-                            
-                                typeWriter(); // Initialize the typing effect
-                            });
-                        </script>
-                </div>
         </div>
+
+        <form action="{{ url_for('download_pdf1', _external=True) }}" method="get">
+            <button id="download_btn" type="submit">Download</button><!--按鈕-->
+        </form>
     </div>
 </body>
 </html>

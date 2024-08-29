@@ -1,1 +1,1 @@
-pdate_image_path
+Bar_facial_summarize_text

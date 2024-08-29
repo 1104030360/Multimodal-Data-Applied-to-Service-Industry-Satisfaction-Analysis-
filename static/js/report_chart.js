@@ -4,9 +4,9 @@
 var passed_score = 70
 
 document.addEventListener("DOMContentLoaded", function() {
-    var margin = {top: 30, right: 30, bottom: 70, left: 40},
+    var margin = {top: 100, right: 30, bottom: 80, left: 40},
         width = 1200 - margin.left - margin.right,
-        height = 500 - margin.top - margin.bottom;
+        height = 400 - margin.top - margin.bottom;
 
     var x = d3.scaleBand().rangeRound([0, width]).padding(0.5);
     var y = d3.scaleLinear().range([height, 0]);
@@ -22,6 +22,14 @@ document.addEventListener("DOMContentLoaded", function() {
         .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     var passed_score = 70
+
+    svg.append("text")
+    .attr("x", width / 2)
+    .attr("y", -margin.top / 2)
+    .attr("text-anchor", "middle")
+    .style("font-size", "50px")
+    .style("font-weight", "bold")
+    .text("Bar1");
     
 
 
@@ -106,12 +114,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     .attr("y1", y(averageScore))
                     .attr("y2", y(averageScore));
             return averageScore;  // 返回當前平均分數以供後續比較
-
         }
 
 
 
-            function setupButtons() {
+            /*function setupButtons() {
                 document.getElementById('facial_score_btn').addEventListener('click', function() {
                     updateChart('facial_score');
                     updateSuggestion('summarize_text1');
@@ -128,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     updateChart('total_score');
                     updateSuggestion('summarize_text4');
                 });
-            }
+            }*/
 
             function updateChart(scoreType) {
                 var averageScore = updateBaseline(scoreType);  // Update baseline and get average score
@@ -178,18 +185,11 @@ document.addEventListener("DOMContentLoaded", function() {
                 typing(); // Start the typing effect
             }
             
-
-            
-
-            
-            
-            
-
-        d3.select("#facial_score_btn").on("click", function() { 
+        //d3.select("#facial_score_btn").on("click", function() { 
             updateChart("facial_score")
-            updateSuggestion('summarize_text1');
-         });
-        d3.select("#audio_score_btn").on("click", function() { 
+            //updateSuggestion('summarize_text1');
+        //});
+        /*d3.select("#audio_score_btn").on("click", function() { 
             updateChart("audio_score"); 
             updateSuggestion('summarize_text2');});
         d3.select("#text_score_btn").on("click", function() { 
@@ -199,13 +199,7 @@ document.addEventListener("DOMContentLoaded", function() {
         d3.select("#total_score_btn").on("click", function() { 
             updateChart("total_score")
             updateSuggestion('summarize_text4'); 
-        });
-        
-
-
-
-
-
+        });*/
     }).catch(function(error) {
         console.error("Error loading the CSV file:", error);
     });
