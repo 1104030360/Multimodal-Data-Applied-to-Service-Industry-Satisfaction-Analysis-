@@ -60,7 +60,7 @@ def load_csv_data(filepath):
         for key in data_store.keys():
             if key in df.columns:
                 print(f"Updating {key} with value {df[key].iloc[0]}")  # 打印更新的键和值
-                if key == "HC":
+                if key == "Service_Number":
                     data_store[key] = round(df[key].iloc[0])  # 四捨五入為整數
                 else:
                     data_store[key] = df[key].iloc[0]  # 取 CSV 文件中的第一行数据
