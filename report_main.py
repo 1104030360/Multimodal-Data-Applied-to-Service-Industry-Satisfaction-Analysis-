@@ -9,9 +9,12 @@ import json
 from threading import Timer
 
 
+
+
 app = Flask(__name__)
 
-# CSV檔抓到的數據
+
+# Json檔抓到的數據
 data_store = {
     "Manager_name": "",
     "Manager_organization": "",
@@ -42,6 +45,10 @@ data_store = {
     "Average_total_score": 0.0,
 }
 
+
+
+
+
 # 導入照片的地方
 def update_image_paths(name):
     img_folder = 'static/img'
@@ -49,14 +56,12 @@ def update_image_paths(name):
     for file in files:
         if f"person_photo_{name}" in file:
             data_store["person_photo"] = os.path.join(img_folder, file)  
-            
-# 導入CSV檔地方
-def load_csv_data(filepath):
+# 導入Json檔的地方        
+def load_json_data(filepath):
     try:
-        df = pd.read_csv(filepath)
-        print("CSV Data Loaded:")
+        df = pd.read_json(filepath, orient='records')
+        print("JSON Data Loaded:")
         print(df)  # 打印读取的 CSV 数据框
-        # 假设 CSV 文件包含与 data_store 对应的列
         for key in data_store.keys():
             if key in df.columns:
                 print(f"Updating {key} with value {df[key].iloc[0]}")  # 打印更新的键和值
@@ -70,6 +75,7 @@ def load_csv_data(filepath):
                 data_store["Average_facial_score"] = round(df["facial_score"].mean(), 1)
                 data_store["Average_text_score"] = round(df["text_score"].mean(), 1)
                 data_store["Average_total_score"] = round(df["total_score"].mean(), 1)
+
         # 生成图片和图表路径
         name = data_store.get("name", "")
         if name:
@@ -80,12 +86,13 @@ def load_csv_data(filepath):
         
         print("Data store updated:", data_store)  # 打印更新后的 data_store
     except Exception as e:
-        print(f"Error loading CSV file: {e}")
-        
+        print(f"Error loading Json file: {e}")
+
 
 @app.route('/')
 def report():
     """根路由，渲染报告页面"""
+    print(f"Manager_name in report route: {data_store['Service_Number']}")
     return render_template('report.html', data=data_store)
 
 
@@ -108,23 +115,23 @@ def upload_file():
     if file.filename == '':
         return jsonify({"status": "error", "message": "No selected file"})
     
-    if file and file.filename.endswith('.csv'):
+    if file and file.filename.endswith('.json'):
         # 清空目标文件夹
-        csv_folder_path = 'static/csv'
+        json_folder_path = 'static/json'
         img_folder_path = 'static/img'
         
-        if os.path.exists(csv_folder_path):
-            shutil.rmtree(csv_folder_path)
-        os.makedirs(csv_folder_path, exist_ok=True)
+        if os.path.exists(json_folder_path):
+            shutil.rmtree(json_folder_path)
+        os.makedirs(json_folder_path, exist_ok=True)
         
         if os.path.exists(img_folder_path):
             shutil.rmtree(img_folder_path)
         os.makedirs(img_folder_path, exist_ok=True)
 
-        filepath = os.path.join(csv_folder_path, file.filename)
+        filepath = os.path.join(json_folder_path, file.filename)
         print(f"Saving file to {filepath}")
         file.save(filepath)
-        load_csv_data(filepath)
+        load_json_data(filepath)
         
         return redirect(url_for('report'))
     
@@ -139,7 +146,7 @@ def get_ai_suggestion():
         "summarize_text1": data_store['Bar_facial_summarize_text'],
         "summarize_text2": data_store['Bar_audio_summarize_text'],
         "summarize_text3": data_store['Bar_text_summarize_text'],
-        "summarize_text4": data_store['Bar_total_summarize_text']  # 假设有一个对应总分的建议
+        "summarize_text4": data_store['Bar_total_summarize_text']  
     }
     return jsonify(suggestion=suggestion_map.get(score_type, "No suggestion found")) # 給report_chart.js
 
@@ -157,16 +164,18 @@ def download_pdf1():
         print(f"Error generating PDF: {e}")
         return "PDF 生成错误", 500
     
+    
+    
 def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")
     
     
 if __name__ == '__main__':
     # 在应用启动时加载预定义的 CSV 文件
-    predefined_csv_path = os.path.join('static', 'csv', 'test-2.csv')
-    if os.path.exists(predefined_csv_path):
-        print(f"Loading predefined CSV file from {predefined_csv_path}")
-        load_csv_data(predefined_csv_path)
+    predefined_json_path = os.path.join('static', 'json', 'staff.json')
+    if os.path.exists(predefined_json_path):
+        print(f"Loading predefined JSON file from {predefined_json_path}")
+        load_json_data(predefined_json_path)
     
     # 仅在主进程中启动浏览器
     if not os.getenv('WERKZEUG_RUN_MAIN'):

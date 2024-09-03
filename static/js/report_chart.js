@@ -34,8 +34,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
     //使用D3的csv方法讀取CSV文件，讀取完成後執行內部函數並打印數據
-    d3.csv("/static/csv/test-2.csv").then(function(data) {
-        console.log("CSV data loaded:", data);
+    d3.json("/static/JSON/staff.json").then(function(data) {
+        console.log("JSON data loaded:", data);
         //將讀取的數據轉換為數字類型
         data.forEach(function(d) {
             d.facial_score = +d.facial_score;
@@ -201,6 +201,6 @@ document.addEventListener("DOMContentLoaded", function() {
             updateSuggestion('summarize_text4'); 
         });*/
     }).catch(function(error) {
-        console.error("Error loading the CSV file:", error);
+        console.error("Error loading the JSON file:", error);
     });
 });

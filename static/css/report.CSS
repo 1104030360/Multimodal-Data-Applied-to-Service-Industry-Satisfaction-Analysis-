@@ -217,6 +217,7 @@ iframe {
 
 .AI1 {
     width: 91.5\%;
+
     margin: 20px 0;
     padding: 40px;
     background-color: #f9f9f9;
@@ -224,6 +225,12 @@ iframe {
     text-align: center;
     border-radius: 15px; 
     box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); 
+    
+    overflow: visible;  /* 確保內容不會被隱藏 */
+    white-space: pre-wrap; /* 保留換行符 */
+    word-wrap: break-word; /* 如果單詞太長自動換行 */
+ 
+    
 }
 
 
@@ -311,6 +318,16 @@ iframe {
 .gray-text {
     color: gray;
 }
+
+
+#ai_suggestion_text {
+    white-space: pre-wrap;
+    text-align: left;
+    word-wrap: break-word;
+    page-break-inside: avoid; 
+
+}
+
 
 
 

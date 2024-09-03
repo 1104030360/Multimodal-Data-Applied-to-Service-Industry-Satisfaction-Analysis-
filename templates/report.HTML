@@ -108,8 +108,8 @@
 
             <div class="AI1">
                 <h2>AI Suggestion1</h2>
-                <p id="ai_suggestion_text">{{ data.Bar_total_summarize_text }}</p>
-                <script>
+                <p id="ai_suggestion_text">{{ data.Bar_total_summarize_text.replace('\n', '<br>') | safe }} </p>
+                <!--<script>
                     document.addEventListener("DOMContentLoaded", function() {
                         var facialElement = document.getElementById('ai_suggestion_text');
                         var facialToWrite = facialElement.innerText;
@@ -125,9 +125,8 @@
                         }
                         typeWriter(); // Initialize the typing effect
                     });
-                </script>
+                </script>-->
             </div>
-                         
 
         </div>
 

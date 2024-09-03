@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     // Data
-    d3.csv("/static/csv/test-2.csv").then(function(data) {
+    d3.json("/static/json/staff.json").then(function(data) {
         var radarData = data.map(d => ({
             name: d.name,
             axes: [

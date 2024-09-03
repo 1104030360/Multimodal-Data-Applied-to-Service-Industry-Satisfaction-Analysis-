@@ -23,13 +23,16 @@ const fs = require('fs');
         console.log('Saving PDF to:', pdfPath);  // 打印完整的保存路径
 
         // 加载你的 Flask 应用页面
-        await page.goto('http://127.0.0.1:5000/', {waitUntil: 'networkidle2'});
+        await page.goto('http://127.0.0.1:5000/', { waitUntil: 'networkidle2', timeout: 0 });
 
-        // 生成 PDF 文件
+        // 如果页面内容很多，可以设置页面高度来生成多页PDF
+        const desiredHeight = '297mm'; // 这是A4纸的标准高度，适用于单页
+        // 如果你的内容超过一页，可以尝试设置更大的值，比如 '1000mm'
         await page.pdf({
             path: pdfPath,
-            format: 'A4',
+            format: 'A4',  // 使用 A4 纸格式
             printBackground: true,
+            height: desiredHeight,  // 设置页面的高度
         });
 
         console.log('PDF generated successfully at', pdfPath);  // 确认PDF生成成功并显示路径

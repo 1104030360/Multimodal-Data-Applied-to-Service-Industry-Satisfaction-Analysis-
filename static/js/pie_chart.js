@@ -12,8 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
         .append("g")
         .attr("transform", "translate(" + (width / 2 + 30) + "," + height / 2 + ")"); // 右移 30px
 
-    d3.csv("/static/csv/test-2.csv").then(function(data) {
-        console.log("CSV data loaded:", data);
+    d3.json("/static/json/staff.json").then(function(data) {
+        console.log("JSON data loaded:", data);
 
         var organizationTotalScores = d3.rollups(
             data,
@@ -84,6 +84,6 @@ document.addEventListener("DOMContentLoaded", function() {
             .text(function(d) { return d.data[0]; })
             .style("font-size", 15);
     }).catch(function(error) {
-        console.error("Error loading the CSV file:", error);
+        console.error("Error loading the JSON file:", error);
     });
 });
