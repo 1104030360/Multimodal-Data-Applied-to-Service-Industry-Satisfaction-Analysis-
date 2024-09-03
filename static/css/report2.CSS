@@ -3,6 +3,10 @@
     margin: 5mm; /* 控制边距，单位可以是 'in', 'cm', 'mm', 'pt' 等 */
 }
 
+.difference1 {
+    color: #5b5454;
+}
+
 .title {
     position: relative;
     font-size: 60px;
