@@ -87,17 +87,15 @@ body {
     page-break-inside: avoid; /* 避免分页时被拆分 */
 }
 
-.AI2_11 {
-    margin: -6px 20px 50px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
-}
 
-.AI2_12 {
-    margin: -6px 20px 50px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
-}
 
-.AI2_13 {
-    margin: -6px 20px 50px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
-}
+
+
+
+
+
+
+
 
 .report-container {
     max-width: 1200px;
@@ -175,7 +173,9 @@ iframe {
 
 .AI1 {
     width: 40%;
-    margin: 20px 0;
+    height: 1500px;
+    margin: 20px ;
+    margin-top: 60px;
     padding: 20px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
@@ -183,45 +183,111 @@ iframe {
     border-radius: 15px; /* 添加圆角效果 */
     box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
 
+    overflow: visible;  /* 确保内容不会被隐藏 */
+    white-space: pre-wrap; /* 保留换行符 */
+    word-wrap: break-word; /* 如果单词太长自动换行 */
+
 }
 
-.AI2_1{
-    width: 40%;
-    
-    margin: 50px 20px;
+#Ftext {
+    white-space: pre-wrap;
+    text-align: left;
+    word-wrap: break-word;
+    page-break-inside: avoid; 
+}
+
+
+
+
+
+
+
+
+
+.score-container1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.score-container2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.score-container3 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+
+
+.AI2_1, .AI2_2, .AI2_3 {
+    position: relative;
+    width: 350px;
+    margin: 50px 0px 0px ;
     padding: 20px;
     background-color: #f9f9f9;
     border: 1px solid #ddd;
     text-align: left;
-    border-radius: 15px; /* 添加圆角效果 */
-    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+    border-radius: 15px;
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* 确保伪元素不会超出边界 */
+}
+
+.background-left1 {
+    position: absolute;
+    margin-left: 0px;
+    margin-right: -20px;
+    margin-top: -20px;
+    right: 0;
+    left: 50%;
+    top: 0;
+    width:  300px;
+    z-index: 0;
+
 
 }
 
-.AI2_2{
-    width: 40%;
-    margin: 50px 20px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    text-align: left;
-    border-radius: 15px; /* 添加圆角效果 */
-    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
 
+.AI2_1::before, .AI2_1::after,
+.AI2_2::before, .AI2_2::after,
+.AI2_3::before, .AI2_3::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 50%;
+    z-index: 0; /* 确保伪元素在文本下方 */
 }
 
 
-.AI2_3{
-    width: 40%;
-    margin: 50px 20px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    text-align: left;
-    border-radius: 15px; /* 添加圆角效果 */
-    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
 
+
+
+
+/*.AI2_1::before, .AI2_2::before, .AI2_3::before {
+    left: 0;
+    background-color: #4ef973; 
 }
+
+.AI2_1::after, .AI2_2::after, .AI2_3::after {
+    right: 0;
+    background-color: #fcbe7f; 
+}
+*/
+
+
+
+
+
+
+
 
 
 

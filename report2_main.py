@@ -5,6 +5,7 @@ import os
 import shutil
 import webbrowser
 from threading import Timer
+import json
 from weasyprint import HTML, CSS
 
 app = Flask(__name__)
@@ -26,50 +27,127 @@ data_store = {
     "facial_chart": "", 
     "audio_chart": "", 
     "text_chart": "", 
+    "audio_color": "",
+    "text_color": "",
+    "facial_color": "",
 }
 
-def update_image_paths(name):
+data_store1 = {
+    "Manager_name": "",
+    "Manager_organization": "",
+    "Departmental_Information": "",
+    "Organization_Name": "",
+    "Service_Number": 0.0,
+    "time1": "",
+    "time2": "",
+    "name": "",
+    "organization": [],
+    "total_score": 0.0,
+    "audio_score": 0.0,
+    "text_score": 0.0,
+    "facial_score": 0.0,
+    "ai_text1": "",
+    "ai_text2": "",
+    "ai_text3": "",
+    "person_photo": "", 
+    "Bar_facial_summarize_text": "",
+    "Bar_audio_summarize_text": "",
+    "Bar_text_summarize_text": "",
+    "Bar_total_summarize_text": "",  
+    "Radar_text": "",
+    "Pie_text": "",
+    "Average_facial_score": 0.0,
+    "Average_audio_score": 0.0,
+    "Average_text_score": 0.0,
+    "Average_total_score": 0.0,
+    "Average_audio_color": "",
+    "Average_text_color": "",
+    "Average_facial_color": "",
+}
+
+
+def update_image_paths(data, name):
     img_folder = 'static/img'
     files = os.listdir(img_folder)
     for file in files:
         if f"person_photo_{name}" in file:
-            data_store["person_photo"] = os.path.join(img_folder, file)  # 使用相对路径
+            data["person_photo"] = os.path.join(img_folder, file)
         elif f"facial_chart_{name}" in file:
-            data_store["facial_chart"] = os.path.join(img_folder, file)  # 使用相对路径
+            data["facial_chart"] = os.path.join(img_folder, file)
         elif f"audio_chart_{name}" in file:
-            data_store["audio_chart"] = os.path.join(img_folder, file)  # 使用相对路径
+            data["audio_chart"] = os.path.join(img_folder, file)
         elif f"text_chart_{name}" in file:
-            data_store["text_chart"] = os.path.join(img_folder, file)  # 使用相对路径
+            data["text_chart"] = os.path.join(img_folder, file)
+            
+def generate_color(score):
+    return '#4ef973' if score > 70 else '#fcbe7f'
 
-def load_csv_data(filepath):
+
+# 导入 staff.json 数据
+def load_json_data_staff(filepath):
     try:
-        df = pd.read_csv(filepath)
-        print("CSV Data Loaded:")
-        print(df)  # 打印读取的 CSV 数据框
-        # 假设 CSV 文件包含与 data_store 对应的列
+        df = pd.read_json(filepath, orient='records')
+        print("JSON Data Loaded:")
+        print(df)
+        temp_data = {}
+        for key in data_store1.keys():
+            if key in df.columns:
+                print(f"Updating {key} with value {df[key].iloc[0]}")
+                if key == "Service_Number":
+                    temp_data[key] = round(df[key].iloc[0])
+                else:
+                    temp_data[key] = df[key].iloc[0]
+        temp_data["organization"] = ', '.join(df["organization"].tolist())
+        temp_data["Average_audio_score"] = round(df["audio_score"].mean(), 1)
+        temp_data["Average_facial_score"] = round(df["facial_score"].mean(), 1)
+        temp_data["Average_text_score"] = round(df["text_score"].mean(), 1)
+        temp_data["Average_total_score"] = round(df["total_score"].mean(), 1)
+        temp_data['audio_color'] = generate_color(temp_data.get('audio_score', 0))
+        temp_data['text_color'] = generate_color(temp_data.get('text_score', 0))
+        temp_data['facial_color'] = generate_color(temp_data.get('facial_score', 0))
+
+
+        data_store1.update(temp_data)
+
+        name = data_store1.get("name", "")
+        if name:
+            update_image_paths(data_store1, name)
+
+        print("Image paths updated:", data_store1)
+        print("Data store updated:", data_store1)
+    except Exception as e:
+        print(f"Error loading Json file: {e}")
+
+# 导入 server.json 数据
+def load_json_data(filepath):
+    try:
+        df = pd.read_json(filepath, orient='records')
+        print("JSON Data Loaded:")
+        print(df)
+        temp_data = {}
         for key in data_store.keys():
             if key in df.columns:
-                print(f"Updating {key} with value {df[key].iloc[0]}")  # 打印更新的键和值
-                data_store[key] = df[key].iloc[0]  # 取 CSV 文件中的第一行数据
-        # 生成图片和图表路径
+                print(f"Updating {key} with value {df[key].iloc[0]}")
+                temp_data[key] = df[key].iloc[0]
+                
+        temp_data["Average_audio_color"] = generate_color(temp_data.get('Average_audio_score', 0))
+        temp_data["Average_text_color"] = generate_color(temp_data.get('Average_text_score', 0))
+        temp_data["Average_facial_color"] = generate_color(temp_data.get('Average_facial_score', 0))
+        data_store.update(temp_data)
+
         name = data_store.get("name", "")
         if name:
-            update_image_paths(name)
+            update_image_paths(data_store, name)
 
-        print("Image paths updated:")
-        print(f"person_photo: {data_store['person_photo']}")
-        print(f"facial_chart: {data_store['facial_chart']}")
-        print(f"audio_chart: {data_store['audio_chart']}")
-        print(f"text_chart: {data_store['text_chart']}")
-        
-        print("Data store updated:", data_store)  # 打印更新后的 data_store
+        print("Image paths updated:", data_store)
+        print("Data store updated:", data_store)
     except Exception as e:
-        print(f"Error loading CSV file: {e}")
+        print(f"Error loading JSON file: {e}")
 
 @app.route('/')
 def report():
     """根路由，渲染报告页面"""
-    return render_template('report2.html', data=data_store)
+    return render_template('report2.html', data=data_store, data1=data_store1)
 
 @app.route('/update', methods=['POST'])
 def update_data():
@@ -89,23 +167,22 @@ def upload_file():
     if file.filename == '':
         return jsonify({"status": "error", "message": "No selected file"})
     
-    if file and file.filename.endswith('.csv'):
-        # 清空目标文件夹
-        csv_folder_path = 'static/csv'
+    if file and file.filename.endswith('.json'):  # 修正 .json 文件后缀
+        json_folder_path = 'static/json'
         img_folder_path = 'static/img'
         
-        if os.path.exists(csv_folder_path):
-            shutil.rmtree(csv_folder_path)
-        os.makedirs(csv_folder_path, exist_ok=True)
+        if os.path.exists(json_folder_path):
+            shutil.rmtree(json_folder_path)
+        os.makedirs(json_folder_path, exist_ok=True)
         
         if os.path.exists(img_folder_path):
             shutil.rmtree(img_folder_path)
         os.makedirs(img_folder_path, exist_ok=True)
 
-        filepath = os.path.join(csv_folder_path, file.filename)
+        filepath = os.path.join(json_folder_path, file.filename)
         print(f"Saving file to {filepath}")
         file.save(filepath)
-        load_csv_data(filepath)
+        load_json_data(filepath)
         
         return redirect(url_for('report'))
     
@@ -115,20 +192,17 @@ def upload_file():
 def download_pdf():
     """生成 PDF 并下载"""
     try:
-        rendered = render_template('report2.html', data=data_store)
+        rendered = render_template('report2.html', data=data_store, data1=data_store1)
         pdf_folder = 'static/pdf'
         pdf_filename = 'report2.pdf'
         pdf_path = os.path.join(pdf_folder, pdf_filename)
 
-        # 确保目录存在
         if not os.path.exists(pdf_folder):
             os.makedirs(pdf_folder)
 
-        # 渲染HTML和CSS
         html = HTML(string=rendered, base_url=request.url_root)
         css = CSS(filename=os.path.join('static', 'css', 'report2.css'))
 
-        # 生成PDF
         html.write_pdf(pdf_path, stylesheets=[css])
         print(f"PDF saved to {pdf_path}")
 
@@ -141,13 +215,16 @@ def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")
 
 if __name__ == '__main__':
-    # 在应用启动时加载预定义的 CSV 文件
-    predefined_csv_path = os.path.join('static', 'csv', 'test-2.csv')
-    if os.path.exists(predefined_csv_path):
-        print(f"Loading predefined CSV file from {predefined_csv_path}")
-        load_csv_data(predefined_csv_path)
-    
-    # 仅在主进程中启动浏览器
+    predefined_json_path = os.path.join('static', 'json', 'server.json')
+    if os.path.exists(predefined_json_path):
+        print(f"Loading predefined JSON file from {predefined_json_path}")
+        load_json_data(predefined_json_path)
+        
+    predefined_json_path_staff = os.path.join('static', 'json', 'staff.json')
+    if os.path.exists(predefined_json_path_staff):
+        print(f"Loading predefined JSON file from {predefined_json_path_staff}")
+        load_json_data_staff(predefined_json_path_staff)
+
     if not os.getenv('WERKZEUG_RUN_MAIN'):
         Timer(1, open_browser).start()
 

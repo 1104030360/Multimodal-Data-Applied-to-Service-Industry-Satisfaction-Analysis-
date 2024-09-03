@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>員工報表</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/report2.css') }}">
+
 </head>
+
 <body>
     <div class="report-container">
         <div>
@@ -27,42 +29,98 @@
             </div>
             <div class="total_score">
                 <p style="margin-bottom: 5px;">SCORE</p> <!-- 调整 margin-bottom -->
-                <h2 style="font-size: 70px; margin: 5px 0;">{{data.total_score}}</h2> <!-- 添加 margin -->
-                <p class="difference" style="margin-top: 5px;">Formula</p> <!-- 调整 margin-top -->
+                <h2 style="font-size: 70px; margin: 5px 0;">{{data.total_score}}/{{data1.total_score}}</h2> <!-- 添加 margin -->
+                <p class="difference" style="margin-top: 5px;">Customer/Staff</p> <!-- 调整 margin-top -->
             </div>
         </div>
+
+
         <div class="category_score">
-            <div class="AI2_1"  style="background-color: {{ '#4ef973' if data.audio_score > 70 else '#fcbe7f;' }}; height: 150px;">
+            <!--<div class="AI2_1"  style="background-color: {{ '#4ef973' if data.audio_score > 70 else '#fcbe7f;' }}; height: 150px;">
                 <div class="AI2_11">
                     <p class="AUDIO" style="margin-bottom: 7px;">AUDIO</p>
-                    <h2 style="font-size: 35px;margin: 5px 0;">{{data.audio_score}}</h2>
-                    <p class="difference" style="margin-top: 7px;">Formula</p>
-                </div>
-            </div>
-            <div class="AI2_2" style="background-color: {{ '#4ef973' if data.text_score > 70 else '#fcbe7f;' }}; height: 150px;">
-                <div class="AI2_12">
-                    <p class="TEXT" style="margin-bottom: 7px;">TEXT</p>
-                    <h2 style="font-size: 35px;margin: 5px 0;">{{data.text_score}}</h2>
-                    <p class="difference" style="margin-top: 7px;">Formula</p>
-                </div>
-            </div>
-            <div class="AI2_3" style="background-color: {{ '#4ef973' if data.facial_score > 70 else '#fcbe7f;' }}; height: 150px;">
-                <div class="AI2_13">
-                    <p class="FACIAL" style="margin-bottom: 7px;">FACIAL</p>
-                    <h2 style="font-size: 35px; margin: 5px 0;">{{data.facial_score}}</h2>
-                    <p class="difference" style="margin-top: 7px;">Formula</p>
+                    <h2 style="font-size: 35px;margin: 5px 0;">{{data.audio_score}}/{{data1.audio_score}}</h2>
+                    <p class="difference" style="margin-top: 7px;">Customer/Staff</p>
                     
                 </div>
+                <div class="divider-line1"></div>
+                
+            </div>-->
+            <div class="AI2_1"  style="height: 150px;">
+                <div class="score-container1">
+                    <!-- 背景元素 -->
+            
+                    <!-- 左侧：data.audio_score -->
+                    <div class="AI2_11" style="background-color: {% if data.audio_score >= 80 %}#4ef973; {% elif data.audio_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};position: relative;margin-left: -20px;margin-right: 15px;margin-top: -20px;margin-bottom: 50px;z-index: 3;width: 520px;height: 300px; ">
+                        <p class="AUDIO" style="margin-bottom: 10px; margin-left: 59px; margin-top:25px; ">AUDIO</p>
+                        <h2 style="font-size: 35px;margin-left: 69px; margin-top:20px">{{data.audio_score}}</h2>
+                        <p class="difference" style="margin-top: -22px; margin-left:72px">Customer</p>
+                    </div>
+            
+                    <!-- 分隔线 -->
+                    <div class="divider-line1" style="position: absolute; left: 52.5%; top: -20px; width: 1px; height: 100%; background-color: rgb(214, 205, 205); z-index: 6;"></div>
+
+                    <!-- 右侧：data1.Average_audio_score -->
+                    <div class="AI2_11-1" style="background-color: {% if data1.Average_audio_score >= 80 %}#4ef973; {% elif data1.Average_audio_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};margin-left: -15px;margin-top: -20px; margin-right: -50px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 2; ">
+                        <h2 style="font-size: 35px;margin-bottom:10px;margin-left:53px; margin-top:67px;">{{data1.Average_audio_score}}</h2>
+                        <p class="difference" style="margin-top: 7px;margin-left: 55px;">Staff</p>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="content">
-            <div id="report1" class="report-section">
-                <h2>FACIAL</h2>
-                <img src="{{data.facial_chart}}" class="f_chart" alt="facial_chart" >
+            
+
+            <div class="AI2_2" style="height: 150px;">
+                <div class="score-container2">
+                    <div class="AI2_12" style="background-color: {% if data.text_score >= 80 %}#4ef973; {% elif data.text_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};position: relative;margin-left: -20px;margin-right: 15px;margin-top: -20px;margin-bottom: 50px;z-index: 3;width: 520px;height: 300px; ">
+                        <p class="TEXT" style="margin-bottom: 10px; margin-left: 59px; margin-top:25px; ">TEXT</p>
+                        <h2 style="font-size: 35px;margin-left: 69px; margin-top:20px">{{data.text_score}}</h2>
+                        <p class="difference" style="margin-top: -22px;margin-left:72px ; ">Customer</p>
+                    </div>
+
+                    <div class="divider-line2" style="position: absolute; left: 52.5%; top: -20px; width: 1px; height: 100%; background-color: rgb(214, 205, 205); z-index: 6;"></div>
+
+                    <div class="AI2_12-1" style="background-color: {% if data1.Average_text_score >= 80 %}#4ef973; {% elif data1.Average_text_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};margin-left: -15px;margin-top: -20px; margin-right: -50px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 2; ">
+                        <h2 style="font-size: 35px;margin-bottom:10px;margin-left:53px; margin-top:67px;">{{data1.Average_text_score}}</h2>
+                        <p class="difference" style="margin-top: 7px;margin-left: 55px;">Staff</p>
+                    </div>
+                </div>
             </div>
+
+            <div class="AI2_3" style="height: 150px;">
+                <div class="score-container3">
+                    <div class="AI2_13" style="background-color: {% if data.facial_score >= 80 %}#4ef973; {% elif data.facial_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};position: relative;margin-left: -20px;margin-right: 15px;margin-top: -20px;margin-bottom: 50px;z-index: 3;width: 510px;height: 300px; ">
+                        <p class="FACIAL" style="margin-bottom: 10px; margin-left: 59px;margin-top:25px; ">FACIAL</p>
+                        <h2 style="font-size: 35px; margin-left: 69px; margin-top:20px">{{data.facial_score}}</h2>
+                        <p class="difference" style="margin-top: -22px;margin-left:72px ; ">Customer</p>
+                    </div>
+                    <div class="divider-line3" style="position: absolute; left: 52.5%; top: -20px; width: 1px; height: 100%; background-color: rgb(214, 205, 205); z-index: 6;"></div>
+                    <div class="AI2_13-1" style="background-color: {% if data1.Average_facial_score >= 80 %}#4ef973; {% elif data1.Average_facial_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};margin-left: -20px;margin-top: -20px; margin-right: -50px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 2; ">
+                        <h2 style="font-size: 35px;margin-bottom:10px;margin-left:53px; margin-top:67px;">{{data1.Average_facial_score}}</h2>
+                        <p class="difference" style="margin-top: 7px;margin-left: 55px;">Staff</p>
+                    </div>
+                </div>
+            </div>
+        </div>        <div class="content">
+            <div id="content2" class="report-section2">
+                <div id="report1" class="report-section">
+                    <h2>FACIAL</h2>
+                    <img src="{{data.facial_chart}}" class="f_chart" alt="facial_chart" >
+                </div>
+                <div id="report2" class="report-section">
+                    <h2>AUDIO</h2>
+                    <img src="{{data.text_chart}}" class="t_chart" alt="text_chart" >
+                </div>
+                
+                <div id="report3" class="report-section">
+                    <h2>TEXT</h2>
+                    <img src="{{data.audio_chart}}" class="a_chart" alt="audio_chart" >
+                </div>
+            </div>    
+
             <div class="AI1">
                 <h2>AI COMMENT</h2>
-                <p id="Ftext">{{data.ai_text1}}</p>
+                <p id="Ftext">{{ data.ai_text1}}</p>
+
                 <script>
                     document.addEventListener("DOMContentLoaded", function() {
                         var faceElement = document.getElementById('Ftext');
@@ -74,22 +132,21 @@
                             if (i < faceToWrite.length) {
                                 faceElement.innerHTML += faceToWrite.charAt(i);
                                 i++;
-                                setTimeout(typeWriter, 50); // Adjust typing speed by changing the timeout value
+                                setTimeout(typeWriter, 20); // Adjust typing speed by changing the timeout value
                             }
                         }
                     
                         typeWriter(); // Initialize the typing effect
                     });
                 </script>
-
-
             </div>
+            
+
+
+
            
-            <div id="report2" class="report-section">
-                <h2>AUDIO</h2>
-                <img src="{{data.text_chart}}" class="t_chart" alt="text_chart" >
-            </div>
-            <div class="AI1">
+ 
+            <!--<div class="AI1">
                 <h2>AI COMMENT</h2>
                 <p id="Atext"> {{data.ai_text2}}</p>
                 <script>
@@ -110,12 +167,9 @@
                         typeWriter(); // Initialize the typing effect
                     });
                 </script>
-            </div>
-            <div id="report3" class="report-section">
-                <h2>TEXT</h2>
-                <img src="{{data.audio_chart}}" class="a_chart" alt="audio_chart" >
-            </div>
-            <div class="AI1">
+            </div>-->
+ 
+            <!--<div class="AI1">
                 <h2>AI COMMENT</h2>
                 <p id="Stext">{{data.ai_text3}}</p>
                 <script>
@@ -136,7 +190,7 @@
                         typeWriter(); // Initialize the typing effect
                     });
                 </script>
-            </div>
+            </div>-->
         </div>
         <form action="{{ url_for('download_pdf', _external=True) }}" method="get">
             <button id="download_btn" type="submit">Download</button><!--按鈕-->
