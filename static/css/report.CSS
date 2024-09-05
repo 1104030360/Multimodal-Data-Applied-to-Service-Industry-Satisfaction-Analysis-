@@ -12,6 +12,10 @@
     width: 103.5%;
     background-color: #e3d7d7;
 }
+
+
+
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -77,18 +81,71 @@ body {
     height: 200px;
 }
 
-
-.AI2_11 {
-    margin: -5px 20px 30px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
+.Score_Container1, .Score_Container2, .Score_Container3{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
-.AI2_12 {
-    margin: -5px 20px 30px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
+.AI2_1{
+    position: relative;
+    width: 350px;
+    height: 150px;
+    margin-top: 50px;
+    margin-right: 25px;
+    margin-left: 15px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    text-align: left;
+    border-radius: 15px;
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* 确保伪元素不会超出边界 */
 }
 
-.AI2_13 {
-    margin: -5px 20px 30px 20px; /* 设置上方的 margin 为 -20px，其他方向保持原样 */
+.AI2_2{
+    position: relative;
+    width: 350px;
+    height: 150px;
+    margin-top: 50px;
+    margin-right: 25px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    text-align: left;
+    border-radius: 15px;
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* 确保伪元素不会超出边界 */
 }
+.AI2_3 {
+    position: relative;
+    width: 350px;
+    height: 150px;
+    margin-top: 50px;
+    margin-right: 15px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    text-align: left;
+    border-radius: 15px;
+    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* 确保伪元素不会超出边界 */
+}
+.divider-line{
+    position: absolute;
+    left: 53%;
+    top: -20px;
+    width: 1px;
+    height: 140%;
+    background-color: rgb(214, 205, 205);
+    z-index: 6;
+}
+
+
+
+
+
 
 
 
@@ -234,16 +291,7 @@ iframe {
 }
 
 
-.AI2 {
-    width: 40%;
-    margin: 50px 20px;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    text-align: left;
-    border-radius: 15px; 
-    box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1);
-}
+
 
 .AI3 {
     width: 35%;
@@ -579,6 +627,8 @@ box-shadow: 0 0 0 0 rgb(73, 70, 70);
 top: 1px;
 }
 
-
+.ttTT{
+    color: #4ef973ed;
+}
 
  

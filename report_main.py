@@ -46,6 +46,37 @@ data_store = {
 }
 
 
+data_store1 = {
+    "Manager_name": "",
+    "Manager_organization": "",
+    "Departmental_Information": "",
+    "Organization_Name": "",
+    "Service_Number": 0.0,
+    "time1": "",
+    "time2": "",
+    "name": "",
+    "organization": [],
+    "total_score": 0.0,
+    "audio_score": 0.0,
+    "text_score": 0.0,
+    "facial_score": 0.0,
+    "ai_text1": "",
+    "ai_text2": "",
+    "ai_text3": "",
+    "person_photo": "", 
+    "Bar_facial_summarize_text": "",
+    "Bar_audio_summarize_text": "",
+    "Bar_text_summarize_text": "",
+    "Bar_total_summarize_text": "",  
+    "Radar_text": "",
+    "Pie_text": "",
+    "Average_facial_score": 0.0,
+    "Average_audio_score": 0.0,
+    "Average_text_score": 0.0,
+    "Average_total_score": 0.0,
+}
+
+
 
 
 
@@ -56,7 +87,41 @@ def update_image_paths(name):
     for file in files:
         if f"person_photo_{name}" in file:
             data_store["person_photo"] = os.path.join(img_folder, file)  
-# 導入Json檔的地方        
+            
+            
+# 导入 staff1.json 数据
+def load_json_data_staff(filepath):
+    try:
+        df = pd.read_json(filepath, orient='records')
+        print("JSON Data Loaded:")
+        print(df)
+        temp_data = {}
+        for key in data_store1.keys():
+            if key in df.columns:
+                print(f"Updating {key} with value {df[key].iloc[0]}")
+                if key == "Service_Number":
+                    temp_data[key] = round(df[key].iloc[0])
+                else:
+                    temp_data[key] = df[key].iloc[0]
+        temp_data["organization"] = ', '.join(df["organization"].tolist())
+        temp_data["Average_audio_score"] = round(df["audio_score"].mean(), 1)
+        temp_data["Average_facial_score"] = round(df["facial_score"].mean(), 1)
+        temp_data["Average_text_score"] = round(df["text_score"].mean(), 1)
+        temp_data["Average_total_score"] = round(df["total_score"].mean(), 1)
+        data_store1.update(temp_data)
+
+        name = data_store1.get("name", "")
+        if name:
+            update_image_paths(data_store1, name)
+
+        print("Image paths updated:", data_store1)
+        print("Data store updated:", data_store1)
+    except Exception as e:
+        print(f"Error loading Json file: {e}")
+        
+        
+        
+# 導入staff.json檔的地方        
 def load_json_data(filepath):
     try:
         df = pd.read_json(filepath, orient='records')
@@ -93,7 +158,7 @@ def load_json_data(filepath):
 def report():
     """根路由，渲染报告页面"""
     print(f"Manager_name in report route: {data_store['Service_Number']}")
-    return render_template('report.html', data=data_store)
+    return render_template('report.html', data=data_store, data1=data_store1)
 
 
 @app.route('/update', methods=['POST'])
@@ -176,6 +241,11 @@ if __name__ == '__main__':
     if os.path.exists(predefined_json_path):
         print(f"Loading predefined JSON file from {predefined_json_path}")
         load_json_data(predefined_json_path)
+        
+        predefined_json_path_staff = os.path.join('static', 'json', 'staff1.json')
+    if os.path.exists(predefined_json_path_staff):
+        print(f"Loading predefined JSON file from {predefined_json_path_staff}")
+        load_json_data_staff(predefined_json_path_staff)
     
     # 仅在主进程中启动浏览器
     if not os.getenv('WERKZEUG_RUN_MAIN'):

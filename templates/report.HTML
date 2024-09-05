@@ -29,36 +29,79 @@
             <div class="total">
                 <p>SERVICE NUMBER</p>
                 <h2 style="font-size:35px">{{ data.Service_Number | int}}</h2>
-                <p class="difference">Formula</p>
+                <p class="difference">Per Month</p>
             </div>
             <div class="total_score">
-                <p>SCORE</p>
-                <h2 style="font-size:35px">{{ data.Average_total_score }}</h2>
-                <p class="difference">Formula</p>
+                <p>TOTAL SCORE</p>
+                <h2 style="font-size:35px">{{ data.Average_total_score }}/{{data1.Average_total_score}}</h2>
+                <p class="difference">Customer/Server</p>
             </div>
         </div>
         <div class="category_score">
-            <div class="AI2" style="background-color: {{ '#4ef973' if data.audio_score > 70 else '#fcbe7f;' }}; height: 150px;">
-                <div class="AI2_11">
-                    <p class="AUDIO">AUDIO</p>
-                    <h2 class="Average_Point">{{ data.Average_audio_score }}</h2>
-                    <p class="difference">Formula</p>
+            <div class="AI2_1">
+                <div class="Score_Container1">
+                    <div class="AI2" style="background-color: {% if data.Average_audio_score >= 80 %}#4ef973; {% elif data.Average_audio_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};position: relative;margin-left: -20px;margin-right: -8px;margin-top: -20px;margin-bottom: 50px;z-index: 3;width: 520px;height: 300px; ">
+                        <div class="AI2_11">
+                            <p class="AUDIO" style="margin-bottom: 10px; margin-left: 45px; margin-top:25px; ">AUDIO</p>
+                            <h2 style="font-size: 35px;margin-left: 65px; margin-top:35px">{{ data.Average_audio_score }}</h2>
+                            <p class="difference" style="margin-top: -13px; margin-left:70px">Customer</p>
+                        </div>
+                    </div>
+                    <div class="divider-line" ></div>
+
+                    <div class="AI2-1"style="background-color: {% if data1.Average_audio_score >= 80 %}#4ef973; {% elif data1.Average_audio_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};margin-left: 5px;margin-top: -20px; margin-right: -50px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 2; ">
+                        <div class="AI2_11">
+                            <h2 style="font-size: 35px;margin-left: 55px; margin-top:77px">{{data1.Average_audio_score}}</h2>
+                            <p class="difference"style="margin-top: -13px; margin-left:60px">Server</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="AI2"style="background-color: {{ '#4ef973' if data.text_score > 70 else '#fcbe7f;' }}; height: 150px;" >
-                <div class="AI2_12">
-                    <p class="TEXT">TEXT</p>
-                    <h2 class="Average_Point">{{ data.Average_text_score }}</h2>
-                    <p class="difference">Formula</p>
+
+
+            <div class="AI2_2">
+                <div class="Score_Container2">
+                        <div class="AI2"style="background-color: {% if data.Average_text_score  >= 80 %} #4ef973ed; {% elif data.Average_text_score  >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};position: relative;margin-left: -20px;margin-right: -8px;margin-top: -20px;margin-bottom: 50px;z-index: 2;width: 520px;height: 300px; ">
+                            <div class="AI2_12">
+                                <p class="TEXT" style="margin-bottom: 10px; margin-left: 45px; margin-top:25px;">TEXT</p>
+                                <h2 style="font-size: 35px;margin-left: 65px; margin-top:35px">{{ data.Average_text_score }}</h2>
+                                <p class="difference"style="margin-top: -13px; margin-left:70px">Customer</p>
+                            </div>
+                        </div>
+                    
+                    
+                    <div class="divider-line" ></div>
+                    
+                    <div class="AI2_12-1" style="background-color: {% if data1.Average_text_score >= 80 %} #4ef973ed; {% elif data1.Average_text_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};margin-left: -10px;margin-top: -20px; margin-right: -70px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 3; ">
+                        <div class="AI2_12">
+                            <h2 style="font-size: 35px;margin-left: 55px; margin-top:77px">{{data1.Average_text_score}}</h2>
+                            <p class="difference"style="margin-top: -13px; margin-left:60px">Server</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="AI2" style="background-color: {{ '#4ef973' if data.facial_score > 70 else '#fcbe7f;' }}; height: 150px;">
-                <div class="AI2_13">
-                    <p class="FACIAL">FACIAL</p>
-                    <h2 class="Average_Point">{{ data.Average_facial_score }}</h2>
-                    <p class="difference">Formula</p>
+            
+            <div class="AI2_3">
+                <div class="Score_Container3">
+                    <div class="AI2" style="background-color: {% if data.Average_facial_score >= 80 %}#4ef973; {% elif data.Average_facial_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};position: relative;margin-left: -20px;margin-right: -8px;margin-top: -20px;margin-bottom: 50px;z-index: 3;width: 520px;height: 300px; ">
+                        <div class="AI2_13">
+                            <p class="FACIAL" style="margin-bottom: 10px; margin-left: 45px; margin-top:25px;">FACIAL</p>
+                            <h2 style="font-size: 35px;margin-left: 65px; margin-top:35px">{{ data.Average_facial_score }}</h2>
+                            <p class="difference" style="margin-top: -13px; margin-left:70px">Customer</p>
+                        </div>
+                    </div>
+
+                    <div class="divider-line" ></div>
+
+                    <div class="AI2" style="background-color: {% if data1.Average_facial_score >= 80 %}#4ef973; {% elif data1.Average_facial_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %}; margin-left: 5px;margin-top: -20px; margin-right: -50px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 2; ">
+                        <div class="AI2_13">
+                            <h2 style="font-size: 35px;margin-left: 55px; margin-top:77px">{{data1.Average_facial_score}}</h2>
+                            <p class="difference" style="margin-top: -13px; margin-left:60px">Server</p>
+                        </div>
+                    </div>
                 </div>
             </div>
+
         </div>
 
 
