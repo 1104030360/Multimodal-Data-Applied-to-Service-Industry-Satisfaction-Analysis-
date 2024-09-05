@@ -28,9 +28,9 @@
                 <h3>{{data.organization}}</h3>
             </div>
             <div class="total_score">
-                <p style="margin-bottom: 5px;">SCORE</p> <!-- 调整 margin-bottom -->
+                <p style="margin-bottom: 5px;">TOTAL SCORE</p> <!-- 调整 margin-bottom -->
                 <h2 style="font-size: 70px; margin: 5px 0;">{{data.total_score}}/{{data1.total_score}}</h2> <!-- 添加 margin -->
-                <p class="difference1" style="margin-top: 5px;">Customer/Staff</p> <!-- 调整 margin-top -->
+                <p class="difference1" style="margin-top: 5px;">Customer/Server</p> <!-- 调整 margin-top -->
             </div>
         </div>
 
@@ -51,7 +51,7 @@
                     <!-- 背景元素 -->
             
                     <!-- 左侧：data.audio_score -->
-                    <div class="AI2_11" style="background-color: {% if data.audio_score >= 80 %}#4ef973; {% elif data.audio_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};position: relative;margin-left: -20px;margin-right: 15px;margin-top: -20px;margin-bottom: 50px;z-index: 3;width: 520px;height: 300px; ">
+                    <div class="AI2_11" style="background-color: {% if data.audio_score >= 80 %}#4ef973ed; {% elif data.audio_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};position: relative;margin-left: -20px;margin-right: 15px;margin-top: -20px;margin-bottom: 50px;z-index: 3;width: 520px;height: 300px; ">
                         <p class="AUDIO" style="margin-bottom: 10px; margin-left: 59px; margin-top:25px; ">AUDIO</p>
                         <h2 style="font-size: 35px;margin-left: 69px; margin-top:20px">{{data.audio_score}}</h2>
                         <p class="difference1" style="margin-top: -22px; margin-left:72px">Customer</p>
@@ -61,9 +61,9 @@
                     <div class="divider-line1" style="position: absolute; left: 52.5%; top: -20px; width: 1px; height: 100%; background-color: rgb(214, 205, 205); z-index: 6;"></div>
 
                     <!-- 右侧：data1.Average_audio_score -->
-                    <div class="AI2_11-1" style="background-color: {% if data1.Average_audio_score >= 80 %}#4ef973; {% elif data1.Average_audio_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};margin-left: -15px;margin-top: -20px; margin-right: -50px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 2; ">
+                    <div class="AI2_11-1" style="background-color: {% if data1.Average_audio_score >= 80 %}#4ef973ed; {% elif data1.Average_audio_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};margin-left: -15px;margin-top: -20px; margin-right: -50px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 2; ">
                         <h2 style="font-size: 35px;margin-bottom:10px;margin-left:53px; margin-top:67px;">{{data1.Average_audio_score}}</h2>
-                        <p class="difference1" style="margin-top: 7px;margin-left: 55px;">Staff</p>
+                        <p class="difference1" style="margin-top: -1px;margin-left: 55px;">Server</p>
                     </div>
                 </div>
             </div>
@@ -71,7 +71,7 @@
 
             <div class="AI2_2" style="height: 150px;">
                 <div class="score-container2">
-                    <div class="AI2_12" style="background-color: {% if data.text_score >= 80 %}#4ef973; {% elif data.text_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};position: relative;margin-left: -20px;margin-right: 15px;margin-top: -20px;margin-bottom: 50px;z-index: 3;width: 520px;height: 300px; ">
+                    <div class="AI2_12" style="background-color: {% if data.text_score >= 80 %}#4ef973ed; {% elif data.text_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};position: relative;margin-left: -20px;margin-right: 15px;margin-top: -20px;margin-bottom: 50px;z-index: 3;width: 520px;height: 300px; ">
                         <p class="TEXT" style="margin-bottom: 10px; margin-left: 59px; margin-top:25px; ">TEXT</p>
                         <h2 style="font-size: 35px;margin-left: 69px; margin-top:20px">{{data.text_score}}</h2>
                         <p class="difference1" style="margin-top: -22px;margin-left:72px ; ">Customer</p>
@@ -81,7 +81,7 @@
 
                     <div class="AI2_12-1" style="background-color: {% if data1.Average_text_score >= 80 %}#4ef973; {% elif data1.Average_text_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};margin-left: -15px;margin-top: -20px; margin-right: -50px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 2; ">
                         <h2 style="font-size: 35px;margin-bottom:10px;margin-left:53px; margin-top:67px;">{{data1.Average_text_score}}</h2>
-                        <p class="difference1" style="margin-top: 7px;margin-left: 55px;">Staff</p>
+                        <p class="difference1" style="margin-top: -1px;margin-left: 55px;">Server</p>
                     </div>
                 </div>
             </div>
@@ -96,7 +96,7 @@
                     <div class="divider-line3" style="position: absolute; left: 52.5%; top: -20px; width: 1px; height: 100%; background-color: rgb(214, 205, 205); z-index: 6;"></div>
                     <div class="AI2_13-1" style="background-color: {% if data1.Average_facial_score >= 80 %}#4ef973; {% elif data1.Average_facial_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};margin-left: -20px;margin-top: -20px; margin-right: -50px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 2; ">
                         <h2 style="font-size: 35px;margin-bottom:10px;margin-left:53px; margin-top:67px;">{{data1.Average_facial_score}}</h2>
-                        <p class="difference1" style="margin-top: 7px;margin-left: 55px;">Staff</p>
+                        <p class="difference1" style="margin-top: -1px;margin-left: 55px;">Server</p>
                     </div>
                 </div>
             </div>
