@@ -5,7 +5,7 @@
         "time2": "6/2/2024 16:36",
         "organization": "CSE",
         "total_score": 85,
-        "audio_score": 70,
+        "audio_score": 80,
         "text_score": 75,
         "facial_score": 45
     },
@@ -14,19 +14,20 @@
         "time1": "6/5/2024 17:30",
         "time2": "6/5/2024 17:36",
         "organization": "CSU",
-        "facial_score": 85,
+        "total_score": 75,
         "audio_score": 65,
         "text_score": 80,
-        "total_score": 75
+        "facial_score": 85
+
     },
     {
         "name": "Sharon",
         "time1": "6/6/2024 18:30",
         "time2": "6/6/2024 18:36",
         "organization": "IT",
-        "facial_score": 60,
+        "total_score": 75,
         "audio_score": 50,
         "text_score": 90,
-        "total_score": 75
+        "facial_score": 60
     }
 ]
