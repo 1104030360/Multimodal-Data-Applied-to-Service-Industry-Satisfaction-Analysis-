@@ -11,9 +11,11 @@ document.addEventListener("DOMContentLoaded", function() {
         roundStrokes: true,
         color: d3.scaleOrdinal(d3.schemeCategory10)
     };
+    
+
 
     // Data
-    d3.json("/static/json/staff.json").then(function(data) {
+    d3.json("/static/json/Server.json").then(function(data) {
         var radarData = data.map(d => ({
             name: d.name,
             axes: [

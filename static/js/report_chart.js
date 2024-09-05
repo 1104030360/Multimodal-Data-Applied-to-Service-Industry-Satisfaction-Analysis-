@@ -4,9 +4,9 @@
 var passed_score = 70
 
 document.addEventListener("DOMContentLoaded", function() {
-    var margin = {top: 100, right: 30, bottom: 80, left: 40},
+    var margin = {top:300, right: 30, bottom: 50, left: 40},
         width = 1200 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        height = 600 - margin.top - margin.bottom;
 
     var x = d3.scaleBand().rangeRound([0, width]).padding(0.5);
     var y = d3.scaleLinear().range([height, 0]);
@@ -29,12 +29,12 @@ document.addEventListener("DOMContentLoaded", function() {
     .attr("text-anchor", "middle")
     .style("font-size", "50px")
     .style("font-weight", "bold")
-    .text("Bar1");
+    .text("Facial Score Bar");
     
 
 
     //使用D3的csv方法讀取CSV文件，讀取完成後執行內部函數並打印數據
-    d3.json("/static/JSON/staff.json").then(function(data) {
+    d3.json("/static/JSON/Server.json").then(function(data) {
         console.log("JSON data loaded:", data);
         //將讀取的數據轉換為數字類型
         data.forEach(function(d) {
