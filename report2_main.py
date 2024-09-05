@@ -215,12 +215,12 @@ def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")
 
 if __name__ == '__main__':
-    predefined_json_path = os.path.join('static', 'json', 'server.json')
+    predefined_json_path = os.path.join('static', 'json', 'Customer.json')
     if os.path.exists(predefined_json_path):
         print(f"Loading predefined JSON file from {predefined_json_path}")
         load_json_data(predefined_json_path)
         
-    predefined_json_path_staff = os.path.join('static', 'json', 'staff.json')
+    predefined_json_path_staff = os.path.join('static', 'json', 'Server.json')
     if os.path.exists(predefined_json_path_staff):
         print(f"Loading predefined JSON file from {predefined_json_path_staff}")
         load_json_data_staff(predefined_json_path_staff)
