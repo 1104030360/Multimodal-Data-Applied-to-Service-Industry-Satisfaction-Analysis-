@@ -1,5 +1,5 @@
 @page {
-    size: 420mm 730mm; /* 页面宽度为A2的宽度，高度增加到600mm */    
+    size: 420mm 1000mm; /* 页面宽度为A2的宽度，高度增加到600mm */    
     margin: 5mm; /* 控制边距，单位可以是 'in', 'cm', 'mm', 'pt' 等 */
 }
 
@@ -177,7 +177,7 @@ iframe {
 
 .AI1 {
     width: 40%;
-    height: 1500px;
+    
     margin: 20px ;
     margin-top: 60px;
     padding: 20px;
@@ -186,6 +186,7 @@ iframe {
     text-align: left;
     border-radius: 15px; /* 添加圆角效果 */
     box-shadow: 6px 4px 6px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+    display: inline-block;
 
     overflow: visible;  /* 确保内容不会被隐藏 */
     white-space: pre-wrap; /* 保留换行符 */
