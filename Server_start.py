@@ -12,7 +12,7 @@ def start_server_action():  # 網頁開起來後送出POST請求
     # 发出 POST 请求
     data = {"action": "start"}
     try:
-        response = requests.post('http://127.0.0.1:5001/perform-action', json=data)
+        response = requests.post('http://127.0.0.1:5002/perform-action', json=data)
         if response.status_code == 200:
             print("Response from server:", response.json())
         else:

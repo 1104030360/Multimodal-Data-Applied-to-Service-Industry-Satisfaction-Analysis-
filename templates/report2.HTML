@@ -100,8 +100,13 @@
                     </div>
                 </div>
             </div>
-        </div>        <div class="content">
-            <div id="content2" class="report-section2">
+        </div> 
+
+
+
+              
+        <div class="content">
+            <div id="content2" class="report-section">
                 <div id="report1" class="report-section">
                     <h2>FACIAL</h2>
                     <img src="{{data.facial_chart}}" class="f_chart" alt="facial_chart" >
@@ -192,7 +197,9 @@
                 </script>
             </div>-->
         </div>
-        <form action="{{ url_for('download_pdf', _external=True) }}" method="get">
+
+
+        <form action="{{ url_for('download_pdf', _external=True) }}" method="GET">
             <button id="download_btn" type="submit">Download</button><!--按鈕-->
         </form>
     </div>
