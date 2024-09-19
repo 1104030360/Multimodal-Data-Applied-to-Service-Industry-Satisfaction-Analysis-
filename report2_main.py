@@ -1,5 +1,6 @@
 import multiprocessing
 from flask import Flask, render_template, request, jsonify, redirect, url_for, send_file
+import requests
 import pandas as pd
 import os
 import shutil
@@ -210,6 +211,24 @@ def download_pdf():
     except IOError as e:
         print(f"Error generating PDF: {e}")
         return "PDF 生成错误", 500
+    
+    
+@app.route('/perform-action', methods=['POST'])
+def perform_action():
+    data = request.json
+    action_type = data.get('action')
+
+    if action_type == 'start':
+        result = "Server received 'start' action and performed the task."
+        print(result)  # 在伺服器端顯示動作
+    else:
+        result = f"Server received unknown action: {action_type}"
+
+    return jsonify({"message": result})
+
+
+    
+
 
 def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")
