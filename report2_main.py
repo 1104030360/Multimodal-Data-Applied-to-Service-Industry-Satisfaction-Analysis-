@@ -11,11 +11,18 @@ from weasyprint import HTML, CSS
 
 app = Flask(__name__)
 
-# 模拟存储数据
+# Customer
 data_store = {
+    #  這邊接入平均分數
+    "average_total_score": 0.0,
+    "average_facial_score": 0.0,
+    "average_audio_score": 0.0,
+    "average_text_score": 0.0,
+
     "time1": "",
     "time2": "",
     "name": "",
+    "Service_ID": "",
     "organization": "",
     "total_score": 0.0,
     "audio_score": 0.0,
@@ -32,7 +39,7 @@ data_store = {
     "text_color": "",
     "facial_color": "",
 }
-
+# Server
 data_store1 = {
     "Manager_name": "",
     "Manager_organization": "",
@@ -67,17 +74,17 @@ data_store1 = {
 }
 
 
-def update_image_paths(data, name):
+def update_image_paths(data, Service_ID):
     img_folder = 'static/img'
     files = os.listdir(img_folder)
     for file in files:
-        if f"person_photo_{name}" in file:
+        if f"{Service_ID}_person_photo" in file:
             data["person_photo"] = os.path.join(img_folder, file)
-        elif f"facial_chart_{name}" in file:
+        elif f"{Service_ID}_facial_chart" in file:
             data["facial_chart"] = os.path.join(img_folder, file)
-        elif f"audio_chart_{name}" in file:
+        elif f"{Service_ID}_audio_chart" in file:
             data["audio_chart"] = os.path.join(img_folder, file)
-        elif f"text_chart_{name}" in file:
+        elif f"{Service_ID}_text_chart" in file:
             data["text_chart"] = os.path.join(img_folder, file)
             
 def generate_color(score):
@@ -110,10 +117,10 @@ def load_json_data_staff(filepath):
 
         data_store1.update(temp_data)
 
-        name = data_store1.get("name", "")
-        if name:
-            update_image_paths(data_store1, name)
-
+        ID_Server = data_store1.get("ID_Server", "")
+        if ID_Server:
+            update_image_paths(data_store1, ID_Server)
+            
         print("Image paths updated:", data_store1)
         print("Data store updated:", data_store1)
     except Exception as e:
@@ -135,11 +142,11 @@ def load_json_data(filepath):
         temp_data["Average_text_color"] = generate_color(temp_data.get('Average_text_score', 0))
         temp_data["Average_facial_color"] = generate_color(temp_data.get('Average_facial_score', 0))
         data_store.update(temp_data)
-
-        name = data_store.get("name", "")
-        if name:
-            update_image_paths(data_store, name)
-
+            
+        Service_ID = data_store.get("Service_ID", "")
+        if Service_ID:
+            update_image_paths(data_store, Service_ID) 
+                   
         print("Image paths updated:", data_store)
         print("Data store updated:", data_store)
     except Exception as e:
@@ -195,7 +202,7 @@ def download_pdf():
     try:
         rendered = render_template('report2.html', data=data_store, data1=data_store1)
         pdf_folder = 'static/pdf'
-        pdf_filename = 'report2.pdf'
+        pdf_filename = f'{data_store.get("Service_ID", "default_id")}.pdf'
         pdf_path = os.path.join(pdf_folder, pdf_filename)
 
         if not os.path.exists(pdf_folder):
@@ -212,11 +219,28 @@ def download_pdf():
         print(f"Error generating PDF: {e}")
         return "PDF 生成错误", 500
 
+
+# 修改后的 perform-action 路由
+@app.route('/perform-action', methods=['POST'])
+def perform_action():
+    data = request.json
+    action_type = data.get('action')
+
+    if action_type == 'start':
+        result = "Server received 'start' action and performed the task."
+        print(result)  # 在伺服器端顯示動作
+    else:
+        result = f"Server received unknown action: {action_type}"
+
+    return jsonify({"message": result})
+
+
 def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")
 
-if __name__ == '__main__':
-    predefined_json_path_Customer = os.path.join('static', 'json', 'Customer.json')
+def start_process():
+    
+    predefined_json_path_Customer = os.path.join('static', 'json', 'S1104036110403036.json')
     if os.path.exists(predefined_json_path_Customer):
         print(f"Loading predefined JSON file from {predefined_json_path_Customer}")
         load_json_data(predefined_json_path_Customer)

@@ -29,7 +29,7 @@
             </div>
             <div class="total_score">
                 <p style="margin-bottom: 5px;">TOTAL SCORE</p> <!-- 调整 margin-bottom -->
-                <h2 style="font-size: 70px; margin: 5px 0;">{{data.total_score}}/{{data1.total_score}}</h2> <!-- 添加 margin -->
+                <h2 style="font-size: 70px; margin: 5px 0;">{{data.total_score}}/{{data.average_total_score}}</h2> <!-- 添加 margin -->
                 <p class="difference1" style="margin-top: 5px;">Customer/Server</p> <!-- 调整 margin-top -->
             </div>
         </div>
@@ -61,8 +61,8 @@
                     <div class="divider-line1" style="position: absolute; left: 52.5%; top: -20px; width: 1px; height: 100%; background-color: rgb(214, 205, 205); z-index: 6;"></div>
 
                     <!-- 右侧：data1.audio_score -->
-                    <div class="AI2_11-1" style="background-color: {% if data1.audio_score >= 80 %}#03ac13; {% elif data1.audio_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};margin-left: -15px;margin-top: -20px; margin-right: -50px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 2; ">
-                        <h2 style="font-size: 35px;margin-bottom:10px;margin-left:65px; margin-top:67px;">{{data1.audio_score}}</h2>
+                    <div class="AI2_11-1" style="background-color: {% if data.average_audio_score >= 80 %}#03ac13; {% elif data.average_audio_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};margin-left: -15px;margin-top: -20px; margin-right: -50px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 2; ">
+                        <h2 style="font-size: 35px;margin-bottom:10px;margin-left:65px; margin-top:67px;">{{data.average_audio_score}}</h2>
                         <p class="difference1" style="margin-top: -1px;margin-left: 67px;">Server</p>
                     </div>
                 </div>
@@ -79,8 +79,8 @@
 
                     <div class="divider-line2" style="position: absolute; left: 52.5%; top: -20px; width: 1px; height: 100%; background-color: rgb(214, 205, 205); z-index: 6;"></div>
 
-                    <div class="AI2_12-1" style="background-color: {% if data1.text_score >= 80 %}#03ac13; {% elif data1.text_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};margin-left: -15px;margin-top: -20px; margin-right: -50px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 2; ">
-                        <h2 style="font-size: 35px;margin-bottom:10px;margin-left:65px; margin-top:67px;">{{data1.text_score}}</h2>
+                    <div class="AI2_12-1" style="background-color: {% if data.average_text_score >= 80 %}#03ac13; {% elif data.average_text_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};margin-left: -15px;margin-top: -20px; margin-right: -50px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 2; ">
+                        <h2 style="font-size: 35px;margin-bottom:10px;margin-left:65px; margin-top:67px;">{{data.average_text_score}}</h2>
                         <p class="difference1" style="margin-top: -1px;margin-left: 67px;">Server</p>
                     </div>
                 </div>
@@ -93,9 +93,11 @@
                         <h2 style="font-size: 35px; margin-left: 69px; margin-top:20px">{{data.facial_score}}</h2>
                         <p class="difference1" style="margin-top: -22px;margin-left:72px ; ">Customer</p>
                     </div>
+
                     <div class="divider-line3" style="position: absolute; left: 52.5%; top: -20px; width: 1px; height: 100%; background-color: rgb(214, 205, 205); z-index: 6;"></div>
-                    <div class="AI2_13-1" style="background-color: {% if data1.facial_score >= 80 %}#03ac13; {% elif data1.facial_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};margin-left: -20px;margin-top: -20px; margin-right: -50px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 2; ">
-                        <h2 style="font-size: 35px;margin-bottom:10px;margin-left:65px; margin-top:67px;">{{data1.facial_score}}</h2>
+
+                    <div class="AI2_13-1" style="background-color: {% if data.average_facial_score >= 80 %}#03ac13; {% elif data.average_facial_score >= 60 %}#fcbe7f; {% else %}#ff6f61; {% endif %};margin-left: -20px;margin-top: -20px; margin-right: -50px;margin-bottom: 50px;position: relative;  height: 300px; width: 550px;z-index: 2; ">
+                        <h2 style="font-size: 35px;margin-bottom:10px;margin-left:65px; margin-top:67px;">{{data.average_facial_score}}</h2>
                         <p class="difference1" style="margin-top: -1px;margin-left: 67px;">Server</p>
                     </div>
                 </div>
@@ -199,9 +201,19 @@
         </div>
 
 
-        <form action="{{ url_for('download_pdf', _external=True) }}" method="GET">
-            <button id="download_btn" type="submit">Download</button><!--按鈕-->
-        </form>
+        <!--<form action="{{ url_for('download_pdf', _external=True) }}" method="GET">
+            <button id="download_btn" type="submit">Download</button>
+        </form>-->
+
+        <script>
+            // 當頁面載入時，請求下載 PDF
+            window.onload = function() {
+                window.location.href = "/download_pdf";
+            };
+        </script>
+
+        
     </div>
 </body>
 </html>
+
