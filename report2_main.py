@@ -169,9 +169,8 @@ def upload_file():
     """处理文件上传并更新数据"""
     if 'file' not in request.files:
         return jsonify({"status": "error", "message": "No file part"})
-    
     file = request.files['file']
-    
+
     if file.filename == '':
         return jsonify({"status": "error", "message": "No selected file"})
     
@@ -252,5 +251,5 @@ def start_process():
 
     if not os.getenv('WERKZEUG_RUN_MAIN'):
         Timer(1, open_browser).start()
-
+        
     app.run(debug=True)
