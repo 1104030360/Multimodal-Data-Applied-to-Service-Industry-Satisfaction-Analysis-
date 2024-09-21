@@ -37,6 +37,10 @@ data_store = {
     "Service_average_audio_score": 0.0,
     "Service_average_text_score": 0.0,
     "Service_average_facial_score": 0.0,
+    "Server_average_audio_score": 0.0,
+    "Server_average_text_score": 0.0,
+    "Server_average_facial_score": 0.0,
+    "Server_average_total_score": 0.0,
     "ai_text1": "",
     "ai_text2": "",
     "ai_text3": "",
@@ -102,8 +106,44 @@ def save_radar_image():
         return jsonify({"message": "Image saved successfully", "file_path": file_path}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500 
+    
+# 判斷是否是整數，整數的話不保留小數，否則保留一位小數
+def format_score(score):
+    return int(score) if score.is_integer() else round(score, 1)
+    
    
-            
+# 導入Admin.json檔的地方        
+def load_json_data(filepath):
+    try:
+        df = pd.read_json(filepath, orient='records')
+        print("JSON Data Loaded:")
+        print(df)  # 打印读取的 CSV 数据框
+        for key in data_store.keys():
+            if key in df.columns:
+                print(f"Updating {key} with value {df[key].iloc[0]}")  # 打印更新的键和值
+                if key == "Service_Number":
+                    data_store[key] = round(df[key].iloc[0])  # 四捨五入為整數
+                else:
+                    data_store[key] = df[key].iloc[0]  # 取 CSV 文件中的第一行数据
+                
+                data_store["organization"] = ', '.join(df["organization"].tolist())  # 将所有组织信息合并为一个字符串                
+                data_store["Average_audio_score"] = format_score(df["Service_average_audio_score"].mean())
+                data_store["Average_facial_score"] = format_score(df["Service_average_facial_score"].mean())
+                data_store["Average_text_score"] = format_score(df["Service_average_text_score"].mean())
+                data_store["Average_total_score"] = format_score(df["Service_average_total_score"].mean())
+
+        # 生成图片和图表路径
+        name = data_store.get("name", "")
+        if name:
+            update_image_paths(name)
+
+        print("Image paths updated:")
+        print(f"person_photo: {data_store['person_photo']}")
+        
+        print("Data store updated:", data_store)  # 打印更新后的 data_store
+    except Exception as e:
+        print(f"Error loading Json file: {e}")
+          
             
 # 导入 Server.json 数据
 def load_json_data_staff(filepath):
@@ -137,37 +177,6 @@ def load_json_data_staff(filepath):
         
         
         
-# 導入Admin.json檔的地方        
-def load_json_data(filepath):
-    try:
-        df = pd.read_json(filepath, orient='records')
-        print("JSON Data Loaded:")
-        print(df)  # 打印读取的 CSV 数据框
-        for key in data_store.keys():
-            if key in df.columns:
-                print(f"Updating {key} with value {df[key].iloc[0]}")  # 打印更新的键和值
-                if key == "Service_Number":
-                    data_store[key] = round(df[key].iloc[0])  # 四捨五入為整數
-                else:
-                    data_store[key] = df[key].iloc[0]  # 取 CSV 文件中的第一行数据
-                
-                data_store["organization"] = ', '.join(df["organization"].tolist())  # 将所有组织信息合并为一个字符串                
-                data_store["Average_audio_score"] = round(df["Service_average_audio_score"].mean(), 1)
-                data_store["Average_facial_score"] = round(df["Service_average_facial_score"].mean(), 1)
-                data_store["Average_text_score"] = round(df["Service_average_text_score"].mean(), 1)
-                data_store["Average_total_score"] = round(df["Service_average_total_score"].mean(), 1)
-
-        # 生成图片和图表路径
-        name = data_store.get("name", "")
-        if name:
-            update_image_paths(name)
-
-        print("Image paths updated:")
-        print(f"person_photo: {data_store['person_photo']}")
-        
-        print("Data store updated:", data_store)  # 打印更新后的 data_store
-    except Exception as e:
-        print(f"Error loading Json file: {e}")
 
 
 @app.route('/')
