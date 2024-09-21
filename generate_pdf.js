@@ -1,13 +1,14 @@
 const puppeteer = require('puppeteer');
 const path = require('path');
 const fs = require('fs');
+const admin_id = process.argv[2] || 'default_id';  // 如果沒有傳入，使用 'default_id'
 
 (async () => {
     try {
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
         const pdf_folder = 'static/pdf';
-        const pdf_filename = 'report1.pdf';
+        const pdf_filename = `${admin_id}.pdf`;  // 使用反引號來引用變量
 
         // 确保目录存在
         const pdfDirectory = path.resolve(__dirname, pdf_folder);
@@ -23,7 +24,7 @@ const fs = require('fs');
         console.log('Saving PDF to:', pdfPath);  // 打印完整的保存路径
 
         // 加载你的 Flask 应用页面
-        await page.goto('http://127.0.0.1:5000/', { waitUntil: 'networkidle2', timeout: 0 });
+        await page.goto('http://127.0.0.1:5000/?is_puppeteer=true', { waitUntil: 'networkidle2', timeout: 0 });
 
         // 如果页面内容很多，可以设置页面高度来生成多页PDF
         const desiredHeight = '297mm'; // 这是A4纸的标准高度，适用于单页

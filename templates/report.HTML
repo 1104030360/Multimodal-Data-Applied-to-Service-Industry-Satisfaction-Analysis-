@@ -177,9 +177,39 @@
 
         </div>
 
-        <form action="{{ url_for('download_pdf1', _external=True) }}" method="get">
-            <button id="download_btn" type="submit">Download</button><!--按鈕-->
-        </form>
+        <!--<form action="{{ url_for('download_pdf1', _external=True) }}" method="get">
+            <button id="download_btn" type="submit">Download</button>
+        </form>-->
+        <script>
+            window.onload = function () {
+                // 检查 URL 是否包含 `is_puppeteer=true`
+                const urlParams = new URLSearchParams(window.location.search);
+                const isPuppeteer = urlParams.get('is_puppeteer') === 'true';
+        
+                // 仅当不是 Puppeteer 请求时，才执行自动下载逻辑
+                if (!isPuppeteer) {
+                    fetch('/download_pdf1', {
+                        method: 'GET'
+                    })
+                    .then(response => response.blob())
+                    .then(blob => {
+                        // 创建一个下载链接
+                        const url = window.URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = "{{data.Admin_ID}}.pdf"; // 網頁上顯示下載名稱
+                        document.body.appendChild(a);
+                        a.click(); // 自动点击下载
+                        a.remove(); // 移除元素
+                    });
+                }
+            };
+        </script>
+        
+        
+
+
+
     </div>
 </body>
 </html>

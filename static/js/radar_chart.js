@@ -26,6 +26,9 @@ document.addEventListener("DOMContentLoaded", function() {
         }));
 
         RadarChart("#chart2", radarData, radarChartOptions);
+
+        // 在圖表生成後，自動將圖表保存到服務器
+        saveRadarChartAsPNG();
     });
 
     // RadarChart function
@@ -208,4 +211,54 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         }
     }
+
+  // 自動保存圖表到 radar_images 文件夾
+  function saveRadarChartAsPNG() {
+    var svgElement = document.querySelector("#chart2 svg");
+
+    // 創建 Canvas 並渲染 SVG 到 Canvas
+    var canvas = document.createElement("canvas");
+    var context = canvas.getContext("2d");
+
+    var svgSize = svgElement.getBoundingClientRect();
+    canvas.width = svgSize.width;
+    canvas.height = svgSize.height;
+
+
+    // 在 Canvas 上填充白色背景
+    context.fillStyle = "#FFFFFF";  // 設置填充色為白色
+    context.fillRect(0, 0, canvas.width, canvas.height);  // 填充整個 canvas
+
+    var svgData = new XMLSerializer().serializeToString(svgElement);
+    var img = new Image();
+    var svgBlob = new Blob([svgData], { type: "image/svg+xml;charset=utf-8" });
+    var url = URL.createObjectURL(svgBlob);
+
+    img.onload = function() {
+        context.drawImage(img, 0, 0);
+        URL.revokeObjectURL(url);
+
+        // 將 Canvas 轉換成 base64 編碼的圖片數據
+        var imageData = canvas.toDataURL("image/png");
+
+        // 發送到後端保存
+        fetch('/save_radar_image', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ imageData: imageData })
+        }).then(response => response.json())
+        .then(data => {
+            console.log("Image saved:", data);
+        }).catch(error => {
+            console.error("Error saving image:", error);
+        });
+    };
+
+    img.src = url;
+}
 });
+
+
+

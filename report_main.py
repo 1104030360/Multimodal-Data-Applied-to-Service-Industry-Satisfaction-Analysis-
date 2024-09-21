@@ -3,6 +3,7 @@ import subprocess
 from flask import Flask, render_template, request, jsonify, redirect, url_for, send_file
 import pandas as pd
 import os
+import base64
 import shutil
 import webbrowser
 import json
@@ -11,11 +12,18 @@ from threading import Timer
 
 
 
+
 app = Flask(__name__)
 
+# 定義保存圖片的目錄
+UPLOAD_FOLDER = 'static/radar_images'
+if not os.path.exists(UPLOAD_FOLDER):
+    os.makedirs(UPLOAD_FOLDER)
 
-# Json檔抓到的數據
+
+# Admin Json檔抓到的數據
 data_store = {
+    "Admin_ID": "",
     "Manager_name": "",
     "Manager_organization": "",
     "Departmental_Information": "",
@@ -25,10 +33,10 @@ data_store = {
     "time2": "",
     "name": "",
     "organization": [],
-    "total_score": 0.0,
-    "audio_score": 0.0,
-    "text_score": 0.0,
-    "facial_score": 0.0,
+    "Service_average_total_score": 0.0,
+    "Service_average_audio_score": 0.0,
+    "Service_average_text_score": 0.0,
+    "Service_average_facial_score": 0.0,
     "ai_text1": "",
     "ai_text2": "",
     "ai_text3": "",
@@ -45,31 +53,18 @@ data_store = {
     "Average_total_score": 0.0,
 }
 
-
+# Server Json檔抓到的數據
 data_store1 = {
-    "Manager_name": "",
-    "Manager_organization": "",
-    "Departmental_Information": "",
-    "Organization_Name": "",
+    "Server_ID": "",
+    "name": "",
     "Service_Number": 0.0,
     "time1": "",
     "time2": "",
-    "name": "",
     "organization": [],
     "total_score": 0.0,
     "audio_score": 0.0,
     "text_score": 0.0,
     "facial_score": 0.0,
-    "ai_text1": "",
-    "ai_text2": "",
-    "ai_text3": "",
-    "person_photo": "", 
-    "Bar_facial_summarize_text": "",
-    "Bar_audio_summarize_text": "",
-    "Bar_text_summarize_text": "",
-    "Bar_total_summarize_text": "",  
-    "Radar_text": "",
-    "Pie_text": "",
     "Average_facial_score": 0.0,
     "Average_audio_score": 0.0,
     "Average_text_score": 0.0,
@@ -87,9 +82,30 @@ def update_image_paths(name):
     for file in files:
         if f"person_photo_{name}" in file:
             data_store["person_photo"] = os.path.join(img_folder, file)  
+   
+
+@app.route('/save_radar_image', methods=['POST'])
+def save_radar_image():
+    try:
+        # 從請求中獲取圖片數據
+        data = request.json['imageData']
+
+        # 圖片數據是 base64 編碼的，我們需要去掉前綴並解碼
+        image_data = data.split(',')[1]
+        image_data = base64.b64decode(image_data)
+
+        # 將圖片保存到 radar_images 文件夾，命名為 radar.png
+        file_path = os.path.join(UPLOAD_FOLDER, 'radar.png')
+        with open(file_path, 'wb') as f:
+            f.write(image_data)
+
+        return jsonify({"message": "Image saved successfully", "file_path": file_path}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500 
+   
             
             
-# 导入 staff1.json 数据
+# 导入 Server.json 数据
 def load_json_data_staff(filepath):
     try:
         df = pd.read_json(filepath, orient='records')
@@ -112,7 +128,7 @@ def load_json_data_staff(filepath):
 
         name = data_store1.get("name", "")
         if name:
-            update_image_paths(data_store1, name)
+            update_image_paths(name)
 
         print("Image paths updated:", data_store1)
         print("Data store updated:", data_store1)
@@ -121,7 +137,7 @@ def load_json_data_staff(filepath):
         
         
         
-# 導入staff.json檔的地方        
+# 導入Admin.json檔的地方        
 def load_json_data(filepath):
     try:
         df = pd.read_json(filepath, orient='records')
@@ -136,10 +152,10 @@ def load_json_data(filepath):
                     data_store[key] = df[key].iloc[0]  # 取 CSV 文件中的第一行数据
                 
                 data_store["organization"] = ', '.join(df["organization"].tolist())  # 将所有组织信息合并为一个字符串                
-                data_store["Average_audio_score"] = round(df["audio_score"].mean(), 1)
-                data_store["Average_facial_score"] = round(df["facial_score"].mean(), 1)
-                data_store["Average_text_score"] = round(df["text_score"].mean(), 1)
-                data_store["Average_total_score"] = round(df["total_score"].mean(), 1)
+                data_store["Average_audio_score"] = round(df["Service_average_audio_score"].mean(), 1)
+                data_store["Average_facial_score"] = round(df["Service_average_facial_score"].mean(), 1)
+                data_store["Average_text_score"] = round(df["Service_average_text_score"].mean(), 1)
+                data_store["Average_total_score"] = round(df["Service_average_total_score"].mean(), 1)
 
         # 生成图片和图表路径
         name = data_store.get("name", "")
@@ -157,8 +173,10 @@ def load_json_data(filepath):
 @app.route('/')
 def report():
     """根路由，渲染报告页面"""
+    is_puppeteer = request.args.get('is_puppeteer', 'false').lower() == 'true'
+
     print(f"Manager_name in report route: {data_store['Service_Number']}")
-    return render_template('report.html', data=data_store, data1=data_store1)
+    return render_template('report.html', data=data_store, data1=data_store1, is_puppeteer=is_puppeteer)
 
 
 @app.route('/update', methods=['POST'])
@@ -219,25 +237,53 @@ def get_ai_suggestion():
 @app.route('/download_pdf1', methods=['GET'])
 def download_pdf1():
     """生成 PDF 并下载"""
-
     try:
-        # 调用 Puppeteer 生成 PDF
-        subprocess.run(["node", "generate_pdf.js"], check=True)
+        # 提取 Admin_ID 作為文件名的一部分
+        admin_id = data_store.get("Admin_ID", "default_id")  # 如果 Admin_ID 不存在，使用 'default_id'
+        pdf_filename = f"{admin_id}.pdf"  # 將 Admin_ID 用作文件名
+        pdf_folder = "static/pdf"
+        pdf_path = os.path.join(pdf_folder, pdf_filename)  # 完整的 PDF 路徑
         
-        return send_file("static/pdf/report1.pdf", as_attachment=True)
+
+        # 調用 Puppeteer，並將 Admin_ID 作為參數傳遞給腳本
+        process = subprocess.Popen(["node", "generate_pdf.js", admin_id], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        stdout, stderr = process.communicate()
+
+        # 检查 Puppeteer 是否成功运行
+        if process.returncode == 0:
+            if os.path.exists(pdf_path):
+                return send_file(pdf_path, as_attachment=True)  # 返回生成的 PDF 文件
+            else:
+                return jsonify({"status": "error", "message": "PDF file not found"}), 404
+        else:
+            print(stderr.decode())  # 输出错误日志
+            return jsonify({"status": "error", "message": "PDF generation failed"}), 500
+  
     except IOError as e:
         print(f"Error generating PDF: {e}")
         return "PDF 生成错误", 500
-    
+
+@app.route('/perform-action', methods=['POST'])
+def perform_action():
+    data = request.json
+    action_type = data.get('action')
+
+    if action_type == 'start':
+        result = "Server received 'start' action and performed the task."
+        print(result)  # 在伺服器端顯示動作
+    else:
+        result = f"Server received unknown action: {action_type}"
+
+    return jsonify({"message": result})  
     
     
 def open_browser():
     webbrowser.open_new("http://127.0.0.1:5000/")
     
     
-if __name__ == '__main__':
+def start_process():
     # 在应用启动时加载预定义的 CSV 文件
-    predefined_json_path_Customer = os.path.join('static', 'json', 'Customer.json')
+    predefined_json_path_Customer = os.path.join('static', 'json', 'A1104036110403036.json')
     if os.path.exists(predefined_json_path_Customer):
         print(f"Loading predefined JSON file from {predefined_json_path_Customer}")
         load_json_data(predefined_json_path_Customer)
